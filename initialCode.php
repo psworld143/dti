@@ -1,3 +1,3 @@
 <?php
-echo 'initial commit';
+echo 'initial committ';
 ?>
