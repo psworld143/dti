@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<link rel="stylesheet" href="CSS/dashboard.css">
+<link rel="stylesheet" href="CSS/sidebar.css">
+<style>
+    .form-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #03045e;
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+    }
+    
+    .form-section h3 {
+        color: #0077b6;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+    
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+        margin-bottom: 15px;
+    }
+    
+    .form-group {
+        flex: 1;
+        min-width: 250px;
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+    
+    .form-group.full-width {
+        flex: 0 0 100%;
+    }
+    
+    .form-group.half-width {
+        flex: 0 0 50%;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #2B2D42;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #0077b6;
+        box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
+    }
+    
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background-color: #0077b6;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #03045e;
+    }
+    
+    .btn-secondary {
+        background-color: #8d99ae;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #2B2D42;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    table th, table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    table th {
+        background-color: #f8f9fa;
+        color: #666;
+        font-weight: 500;
+    }
+    
+    .signature-box {
+        border: 1px dashed #ddd;
+        height: 100px;
+        border-radius: 8px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        cursor: pointer;
+    }
+    
+    .signature-box:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .form-group.half-width {
+            flex: 0 0 100%;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .dashboard-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .sidebar {
+            display: none;
+        }
+        
+        .form-container {
+            padding: 20px;
+        }
+        
+        .form-row {
+            flex-direction: column;
+        }
+        
+        .form-group {
+            min-width: 100%;
+        }
+    }
+    
+    /* Timeline styles */
+.status-timeline {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+}
+
+.timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    width: 100%;
+    height: 2px;
+    background-color: #ddd;
+    left: 50%;
+}
+
+.timeline-point {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    border: 2px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-point.completed {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.timeline-point.active {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.timeline-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+}
+
+.timeline-label.completed {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.timeline-label.active {
+    color: #007bff;
+    font-weight: 500;
+}
+
+/* Badge styles */
+.badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.badge-success {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Approval info styles */
+.approval-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.approval-info.approved {
+    color: #28a745;
+}
+
+.approval-info.pending {
+    color: #ffc107;
+}
+
+/* Form value styles */
+.form-value {
+    padding: 8px 0;
+    font-weight: 500;
+}
+    @media print {
+        body {
+            background-color: white;
+        }
+        
+        .sidebar, .btn-container {
+            display: none;
+        }
+        
+        .dashboard-container {
+            display: block;
+        }
+        
+        .form-container {
+            box-shadow: none;
+            padding: 0;
+        }
+    }
+    
+    /* Custom styles for calculation fields */
+    .calculation-field {
+        background-color: #edf2f7;
+        cursor: not-allowed;
+    }
+    
+    /* Accounting entry table */
+    .accounting-entry-table th:nth-child(1),
+    .accounting-entry-table td:nth-child(1) {
+        width: 40%;
+    }
+    
+    .accounting-entry-table th:nth-child(2),
+    .accounting-entry-table td:nth-child(2) {
+        width: 20%;
+    }
+    
+    .accounting-entry-table th:nth-child(3),
+    .accounting-entry-table th:nth-child(4),
+    .accounting-entry-table td:nth-child(3),
+    .accounting-entry-table td:nth-child(4) {
+        width: 20%;
+    }
+    
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        overflow: auto;
+    }
+    
+    .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        max-width: 900px;
+        position: relative;
+        animation: modalopen 0.4s;
+    }
+    
+    @keyframes modalopen {
+        from {opacity: 0; transform: translateY(-60px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+    
+    .close-modal {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    
+    .close-modal:hover {
+        color: #03045e;
+    }
+    
+    .modal-header {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .modal-footer {
+        padding-top: 15px;
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        text-align: right;
+    }
+    
+    .detail-row {
+        display: flex;
+        margin-bottom: 15px;
+    }
+    
+    .detail-label {
+        flex: 0 0 200px;
+        font-weight: 500;
+        color: #666;
+    }
+    
+    .detail-value {
+        flex: 1;
+    }
+</style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo-container">
+                <img src="pictures/dti_logo.png" alt="Company Logo">
+                <div class="logo-text">
+                    <h2>DTI</h2>
+                    <span class="admin-text">Book Keeper</span>
+                </div>
+            </div>
+            <a href="Dashboard.html" class="nav-item">
+                <ion-icon name="home-outline"></ion-icon>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <div class="nav-item dropdown">
+                <div class="dropdown-header">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <span class="nav-text">Disbursements</span>
+                    <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
+                </div>
+                <div class="dropdown-content">
+                    <a href="DVFORM.HTML" class="dropdown-item">
+                        <span class="nav-text">Disbursement Voucher</span>
+                    </a>
+                    <a href="ViewOBS.html" class="dropdown-item">
+                        <span class="nav-text">Obligation Request</span>
+                    </a>
+                    <a href="CompletedDisbursements.html" class="dropdown-item">
+                        <span class="nav-text"> Journal Entry Voucher</span>
+                    </a>
+                </div>
+            </div>
+            <a href="Reports.html" class="nav-item">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <span class="nav-text">Reports</span>
+            </a>
+            <div class="nav-item">
+                <ion-icon name="settings-outline"></ion-icon>
+                <span class="nav-text">Settings</span>
+            </div>
+        </div>
+
+        
+        <div class="main-content">
+            <div class="header">
+                <h1>Disbursement Voucher Form</h1>
+                
+            </div>
+            <div class="content-wrapper">
+                <div class="section">
+                    <div class="filters">
+                        <div class="filter-item">
+                            <label for="date-filter">Filter by Date</label>
+                            <input type="date" id="date-filter">
+                        </div>
+                        
+                       
+        
+                    <table class="assessments-table">
+                        <thead>
+                            <tr>
+                                <th>DV No.</th>
+                                <th>Payee</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sample data rows -->
+                            <tr>
+                                <td>RM-25-02-032</td>
+                                <td>ESTER WATER MARKET FILTRATION & PURI....</td>
+                                <td>Gravity retaining walls</td>
+                             
+                                <td>
+                                    <span class="severity-badge severity-high">
+                                       Pending
+                                    </span>
+                                </td>
+                                <td>2025-01-15</td>
+                                <td>
+                                    <button class="view-button" onclick="openModal('RM-25-02-032')">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                          
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+ <!-- Modal -->
+<div id="detailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-header">
+            <h2>DISBURSEMENT VOUCHER</h2>
+            <p id="modal-dv-number">DV #: DV-2025-0128</p>
+        </div>
+        
+        <div class="modal-body">
+            <div class="status-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-point completed">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                    </div>
+                    <div class="timeline-label completed">Created</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-point completed">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                    </div>
+                    <div class="timeline-label completed">Submitted</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-point active">
+                        <ion-icon name="time-outline"></ion-icon>
+                    </div>
+                    <div class="timeline-label active">Processing</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-point">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                    <div class="timeline-label">Payment</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-point">
+                        <ion-icon name="checkmark-done-outline"></ion-icon>
+                    </div>
+                    <div class="timeline-label">Completed</div>
+                </div>
+            </div>
+            
+            <!-- General Information Section -->
+            <div class="form-section">
+                <h3>General Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Fund Cluster</label>
+                        <div class="form-value">Regular Agency Fund (01)</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <div class="form-value">February 23, 2025</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Disbursement Voucher No.</label>
+                        <div class="form-value">DV-2025-0128</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mode of Payment Section -->
+            <div class="form-section">
+                <h3>Mode of Payment</h3>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="form-value">
+                            <span class="badge badge-info">MDS Check</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payee Details Section -->
+            <div class="form-section">
+                <h3>Payee Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Payee Name</label>
+                        <div class="form-value">ABC Office Supplies Co.</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">TIN/Employee No.</label>
+                        <div class="form-value">123-456-789-000</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <div class="form-value">Koronadal City</div>
+                </div>
+            </div>
+            
+            <!-- Particulars Section -->
+            <div class="form-section">
+                <h3>Particulars</h3>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="form-value" style="min-height: 100px;">
+                            Payment for the procurement of office supplies for the Regional Office as per Purchase Order No. PO-2025-0089 dated February 15, 2025. Inclusive of the following items:
+                            <br><br>
+                            - Bond paper, A4 size (20 reams)<br>
+                            - Ball pens, black and blue (10 boxes)<br>
+                            - File folders (50 pcs)<br>
+                            - Printer ink cartridges (5 sets)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Responsibility Center</label>
+                        <div class="form-value">Regional Office XII</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">OO/PAP</label>
+                        <div class="form-value">General Administration</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount</label>
+                        <div class="form-value">₱24,500.00</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Breakdown of Expenses Section -->
+            <div class="form-section">
+                <h3>Breakdown of Expenses</h3>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label class="form-label">Gross Amount</label>
+                        <div class="form-value">₱24,500.00</div>
+                    </div>
+                    <div class="form-group half-width">
+                        <label class="form-label">VAT (12%)</label>
+                        <div class="form-value">₱2,940.00</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Tax Base</label>
+                        <div class="form-value">₱21,560.00</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Less: 5% Tax</label>
+                        <div class="form-value">₱1,078.00</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Less: 2% Tax</label>
+                        <div class="form-value">₱431.20</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Net Amount</label>
+                        <div class="form-value">₱20,050.80</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Approval Status Section -->
+            <div class="form-section">
+                <h3>Approval Status</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Budget Officer</label>
+                        <div class="form-value">Maria Santos</div>
+                        <div class="approval-info approved">
+                            <ion-icon name="checkmark-circle"></ion-icon>
+                            <span>Approved on Feb 24, 2025</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Accounting Officer</label>
+                        <div class="form-value">Juan Dela Cruz</div>
+                        <div class="approval-info approved">
+                            <ion-icon name="checkmark-circle"></ion-icon>
+                            <span>Approved on Feb 25, 2025</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Approving Authority</label>
+                        <div class="form-value">Pedro Reyes</div>
+                        <div class="approval-info pending">
+                            <ion-icon name="time"></ion-icon>
+                            <span>Pending approval</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Accounting Entry Section -->
+            <div class="form-section">
+                <h3>Accounting Entry</h3>
+                <div class="table-responsive">
+                    <table class="accounting-entry-table">
+                        <thead>
+                            <tr>
+                                <th>Account Title</th>
+                                <th>UACS Code</th>
+                                <th>Debit Amount</th>
+                                <th>Credit Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Supplies Expense</td>
+                                <td>5020301000</td>
+                                <td>₱24,500.00</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Due to BIR</td>
+                                <td>2020102000</td>
+                                <td></td>
+                                <td>₱4,449.20</td>
+                            </tr>
+                            <tr>
+                                <td>Accounts Payable</td>
+                                <td>2020101000</td>
+                                <td></td>
+                                <td>₱20,050.80</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Receipt of Payment Section -->
+            <div class="form-section">
+                <h3>Receipt of Payment</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Check/ADA No.</label>
+                        <div class="form-value">Pending</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date of Payment</label>
+                        <div class="form-value">Pending</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Bank Name & Account No.</label>
+                        <div class="form-value">Land Bank of the Philippines - 1234-5678-90</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Printed Name of Receiver</label>
+                        <div class="form-value">Pending</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">JEV No.</label>
+                        <div class="form-value">JEV-2025-0236</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Attachments Section -->
+            <div class="form-section">
+                <h3>Attachments</h3>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Filename</th>
+                                        <th>Type</th>
+                                        <th>Uploaded By</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Purchase_Order_PO-2025-0089.pdf</td>
+                                        <td>Purchase Order</td>
+                                        <td>Maria Santos</td>
+                                        <td>Feb 23, 2025</td>
+                                        <td>
+                                            <a href="#" class="btn-link">
+                                                <ion-icon name="download-outline"></ion-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sales_Invoice_ABC_Supplies_2025-028.pdf</td>
+                                        <td>Invoice</td>
+                                        <td>Maria Santos</td>
+                                        <td>Feb 23, 2025</td>
+                                        <td>
+                                            <a href="#" class="btn-link">
+                                                <ion-icon name="download-outline"></ion-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Acceptance_Report.pdf</td>
+                                        <td>Report</td>
+                                        <td>Maria Santos</td>
+                                        <td>Feb 23, 2025</td>
+                                        <td>
+                                            <a href="#" class="btn-link">
+                                                <ion-icon name="download-outline"></ion-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action History Section -->
+            <div class="form-section">
+                <h3>Action History</h3>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date & Time</th>
+                                        <th>Action</th>
+                                        <th>User</th>
+                                        <th>Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Feb 25, 2025 10:15 AM</td>
+                                        <td><span class="badge badge-info">Forwarded to Approving Authority</span></td>
+                                        <td>Juan Dela Cruz</td>
+                                        <td>All accounting entries verified</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Feb 24, 2025 3:45 PM</td>
+                                        <td><span class="badge badge-success">Approved by Budget Officer</span></td>
+                                        <td>Maria Santos</td>
+                                        <td>Budget allocation confirmed</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Feb 23, 2025 2:20 PM</td>
+                                        <td><span class="badge badge-info">Created</span></td>
+                                        <td>Ana Reyes</td>
+                                        <td>DV initially created</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+            <button class="btn btn-primary" onclick="window.location.href=''">Print</button>
+
+            <button class="btn btn-warning">
+                <ion-icon name="create-outline"></ion-icon>
+                Edit
+            </button>
+        </div>
+    </div>
+</div>
+
+    <script>
+   
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Sidebar toggle functionality
+    const sidebar = document.querySelector('.sidebar');
+    const dashboardContainer = document.querySelector('.dashboard-container');
+    
+    if (sidebar && dashboardContainer) {
+        sidebar.addEventListener('click', function(e) {
+            // Only toggle collapse if clicking on the sidebar itself, not on navigation items
+            if (e.target === sidebar || e.target.classList.contains('logo-container') || 
+                e.target.closest('.logo-container')) {
+                dashboardContainer.classList.toggle('collapsed');
+            }
+        });
+    }
+    
+    // Dropdown functionality
+    const dropdown = document.querySelector('.dropdown');
+    
+    if (dropdown) {
+        dropdown.addEventListener('click', function(e) {
+            // Only toggle if clicking on dropdown header, not content
+            if (!e.target.closest('.dropdown-content')) {
+                e.stopPropagation(); // Prevent sidebar toggle when clicking dropdown
+                this.classList.toggle('active');
+            }
+        });
+    }
+    
+    // Initialize the calculation when the page loads (if applicable)
+    if (typeof calculateTaxes === 'function') {
+        calculateTaxes();
+    }
+});
+
+// Modal functionality
+function openModal(dvNumber) {
+    const modal = document.getElementById('detailsModal');
+    const modalDvNumber = document.getElementById('modal-dv-number');
+    
+    // Set the DV number in the modal
+    modalDvNumber.textContent = 'DV #: ' + dvNumber;
+    
+    // Display the modal
+    modal.style.display = 'block';
+    
+    // Stop page scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    const modal = document.getElementById('detailsModal');
+    modal.style.display = 'none';
+    
+    // Re-enable page scrolling
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('detailsModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+// Close modal on Escape key press
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModal();
+    }
+});
+    </script>
+</body>
+</html>

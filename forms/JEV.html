@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Entry Voucher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table, th, td {
+            border: 1px solid black;
+        }
+        
+        th, td {
+            padding: 4px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .header-table {
+            margin-bottom: 0;
+        }
+        
+        .accounting-entries {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        
+        .accounting-entries th {
+            text-align: center;
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+        
+        .amount-header {
+            text-align: center !important;
+        }
+        
+        .debit-credit-cols {
+            width: 15%;
+            text-align: right !important;
+        }
+        
+        .center-text {
+            text-align: center;
+        }
+        
+        .signature-section {
+            margin-top: 0;
+        }
+        
+        .signature-name {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0;
+        }
+        
+        .signature-title {
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .prepared-certified {
+            vertical-align: bottom;
+            height: 80px;
+        }
+        
+        .totals {
+            font-weight: bold;
+            text-align: right !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <table class="header-table">
+        <tr>
+            <td width="25%">Entity Name:</td>
+            <td width="50%">DEPARTMENT OF TRADE AND INDUSTRY</td>
+            <td width="10%">JEV No:</td>
+            <td width="15%">101-2025-02-132</td>
+        </tr>
+        <tr>
+            <td>Payee:</td>
+            <td>CINCO NINAS RESTO</td>
+            <td rowspan="2">Date:</td>
+            <td rowspan="2">February 14, 2025</td>
+        </tr>
+        <tr>
+            <td>Fund Cluster:</td>
+            <td>GENERAL FUND (101)</td>
+        </tr>
+        <tr>
+            <td>Responsibility Center:</td>
+            <td colspan="3"></td>
+        </tr>
+    </table>
+    
+    <!-- Accounting Entries Header -->
+    <table class="accounting-entries">
+        <tr>
+            <th colspan="4">ACCOUNTING ENTRIES</th>
+        </tr>
+        <tr>
+            <th rowspan="2"></th>
+            <th rowspan="2">Account Name</th>
+            <th rowspan="2">UACS Object Code</th>
+            <th class="amount-header">Amount</th>
+        </tr>
+        <tr>
+            <th>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <th style="width:10%; border: none; border-right: 1px solid black;">P</th>
+                        <th style="width:45%; border: none; border-right: 1px solid black;">Debit</th>
+                        <th style="width:45%; border: none;">Credit</th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+        
+        <!-- Accounting Entries -->
+        <tr>
+            <td>22-001-03-00012-03</td>
+            <td>Representation Expenses</td>
+            <td>5029901000</td>
+            <td>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <td style="width:10%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; border-right: 1px solid black; text-align:right;">15,000.00</td>
+                        <td style="width:45%; border: none;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- Empty rows -->
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <td style="width:10%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <td style="width:10%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- BIR entries -->
+        <tr>
+            <td></td>
+            <td>Due to BIR 5%</td>
+            <td>2020101000</td>
+            <td>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <td style="width:10%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; text-align:right;">669.64</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Due to BIR 2%</td>
+            <td>2020101000</td>
+            <td>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <td style="width:10%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; text-align:right;">267.86</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Cash - Modified Disbursement System (MDS), Regular</td>
+            <td>1010401000</td>
+            <td>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <td style="width:10%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; text-align:right;">14,062.50</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- Description row -->
+        <tr>
+            <td></td>
+            <td colspan="3">To recognize Payment of Meals during DTI RO AFAID and FO AO QMS Strat Planning Feb 9, 2025</td>
+        </tr>
+        
+        <!-- DV and reference numbers -->
+        <tr>
+            <td>DV No:</td>
+            <td colspan="3">ADMIN/E/POLICY-25-02-008</td>
+        </tr>
+        <tr>
+            <td>ORS No:</td>
+            <td colspan="3">ADMIN/E/POLICY-25-02-008</td>
+        </tr>
+        <tr>
+            <td>Check No:</td>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td>ADA No:</td>
+            <td colspan="3"></td>
+        </tr>
+        
+        <!-- Totals -->
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <table style="width:100%; border: none;">
+                    <tr>
+                        <td style="width:10%; border: none; border-right: 1px solid black;"></td>
+                        <td style="width:45%; border: none; border-right: 1px solid black; text-align:right; font-weight:bold;">15,000.00</td>
+                        <td style="width:45%; border: none; text-align:right; font-weight:bold;">15,000.00</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    <!-- Signature Section -->
+    <table class="signature-section">
+        <tr>
+            <td width="10%">Prepared by:</td>
+            <td width="40%" class="prepared-certified"></td>
+            <td width="10%">Certified Correct:</td>
+            <td width="40%" class="prepared-certified"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <p class="signature-name">JINNARD B. LUBATON</p>
+                <p class="signature-title">Administrative Aide VI</p>
+            </td>
+            <td colspan="2">
+                <p class="signature-name">NEIL ANTHONY T. MORALA</p>
+                <p class="signature-title">Accountant III</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
