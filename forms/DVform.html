@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disbursement Voucher Form</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Custom styles */
+    .bg-primary\/5 {
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    .form-control {
+      width: 100%;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      padding: 0.5rem 0.75rem;
+    }
+    
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+    
+    textarea.form-control {
+      min-height: 100px;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-description {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+    }
+    
+    .form-message {
+      font-size: 0.75rem;
+      color: #ef4444;
+      margin-top: 0.25rem;
+    }
+    
+    button {
+      font-weight: 500;
+      border-radius: 0.375rem;
+      padding: 0.5rem 1rem;
+    }
+    
+    button[type="submit"] {
+      background-color: #3b82f6;
+      color: white;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #2563eb;
+    }
+    
+    button[type="button"] {
+      background-color: white;
+      border: 1px solid #e5e7eb;
+      color: #374151;
+    }
+    
+    button[type="button"]:hover {
+      background-color: #f9fafb;
+    }
+    
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    .datepicker {
+      position: relative;
+    }
+    
+    .datepicker-button {
+      text-align: left;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .datepicker-content {
+      display: none;
+      position: absolute;
+      z-index: 10;
+      background-color: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem;
+      min-width: 300px;
+    }
+    
+    .datepicker.open .datepicker-content {
+      display: block;
+    }
+    
+    .success-message {
+      display: none;
+      align-items: center;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      border-radius: 0.375rem;
+      background-color: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+    
+    .separator {
+      height: 1px;
+      background-color: #e5e7eb;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="container mx-auto py-6">
+    <div class="w-full max-w-4xl mx-auto bg-white rounded-lg shadow">
+      <!-- Card Header -->
+      <div class="p-6 bg-primary/5 rounded-t-lg">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-bold">Disbursement Voucher</h2>
+            <p class="text-gray-500 text-sm">Complete all fields to process payment</p>
+          </div>
+          <div class="text-right">
+            <p class="text-sm font-medium">Form: DV-2025</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card Content -->
+      <div class="p-6">
+        <form id="disbursementForm" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="voucherNo" class="form-label">Voucher No.</label>
+              <input type="text" id="voucherNo" name="voucherNo" placeholder="DV-2025-0001" class="form-control" required>
+              <div class="form-message" id="voucherNoError"></div>
+            </div>
+            
+            <div>
+              <label for="date" class="form-label">Date</label>
+              <div class="datepicker" id="datepicker">
+                <button type="button" class="form-control datepicker-button" id="dateButton">
+                  <span id="dateText">Pick a date</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-50">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </button>
+                <input type="hidden" id="date" name="date" required>
+                <div class="datepicker-content">
+                  <!-- Simple date input as placeholder for calendar -->
+                  <input type="date" id="calendarDate" class="form-control">
+                </div>
+              </div>
+              <div class="form-message" id="dateError"></div>
+            </div>
+          </div>
+          
+          <div class="separator"></div>
+          
+          <div class="space-y-4">
+            <h3 class="text-lg font-medium">Payee Information</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="payeeName" class="form-label">Payee Name</label>
+                <input type="text" id="payeeName" name="payeeName" placeholder="John Doe" class="form-control" required>
+                <div class="form-message" id="payeeNameError"></div>
+              </div>
+              
+              <div>
+                <label for="paymentMode" class="form-label">Payment Mode</label>
+                <select id="paymentMode" name="paymentMode" class="form-control" required>
+                  <option value="" disabled selected>Select payment mode</option>
+                  <option value="cash">Cash</option>
+                  <option value="check">Check</option>
+                  <option value="bankTransfer">Bank Transfer</option>
+                  <option value="electronicPayment">Electronic Payment</option>
+                </select>
+                <div class="form-message" id="paymentModeError"></div>
+              </div>
+            </div>
+            
+            <div>
+              <label for="payeeAddress" class="form-label">Payee Address</label>
+              <input type="text" id="payeeAddress" name="payeeAddress" placeholder="123 Main St, City, State, ZIP" class="form-control" required>
+              <div class="form-message" id="payeeAddressError"></div>
+            </div>
+          </div>
+          
+          <div class="separator"></div>
+          
+          <div class="space-y-4">
+            <h3 class="text-lg font-medium">Payment Details</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="amount" class="form-label">Amount</label>
+                <input type="text" id="amount" name="amount" placeholder="0.00" class="form-control" required>
+                <p class="form-description">Enter amount in dollars</p>
+                <div class="form-message" id="amountError"></div>
+              </div>
+              
+              <div>
+                <label for="accountCode" class="form-label">Account Code</label>
+                <select id="accountCode" name="accountCode" class="form-control" required>
+                  <option value="" disabled selected>Select account code</option>
+                  <option value="101">101 - Office Supplies</option>
+                  <option value="102">102 - Travel Expenses</option>
+                  <option value="103">103 - Professional Services</option>
+                  <option value="104">104 - Equipment</option>
+                  <option value="105">105 - Utilities</option>
+                </select>
+                <div class="form-message" id="accountCodeError"></div>
+              </div>
+            </div>
+            
+            <div>
+              <label for="purpose" class="form-label">Purpose</label>
+              <textarea id="purpose" name="purpose" placeholder="Detailed description of payment purpose" class="form-control" required></textarea>
+              <div class="form-message" id="purposeError"></div>
+            </div>
+            
+            <div>
+              <label for="department" class="form-label">Department</label>
+              <select id="department" name="department" class="form-control" required>
+                <option value="" disabled selected>Select department</option>
+                <option value="finance">MDS </option>
+                <option value="hr">Human Resources</option>
+                <option value="operations">Operations</option>
+                <option value="it">Information Technology</option>
+                <option value="marketing">Marketing</option>
+              </select>
+              <div class="form-message" id="departmentError"></div>
+            </div>
+          </div>
+          
+          <div class="separator"></div>
+          
+          <div class="space-y-4">
+            <h3 class="text-lg font-medium">Authorization</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="preparedBy" class="form-label">Prepared By</label>
+                <input type="text" id="preparedBy" name="preparedBy" placeholder="Name of preparer" class="form-control" required>
+                <div class="form-message" id="preparedByError"></div>
+              </div>
+              
+              <div>
+                <label for="approvedBy" class="form-label">Approved By</label>
+                <input type="text" id="approvedBy" name="approvedBy" placeholder="Name of approver" class="form-control" required>
+                <div class="form-message" id="approvedByError"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex justify-between pt-4">
+            <button type="button" id="resetButton" class="px-4 py-2">Reset Form</button>
+            <button type="submit" id="submitButton" class="px-4 py-2">Submit Voucher</button>
+          </div>
+          
+          <div class="success-message" id="successMessage">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Disbursement voucher submitted successfully!</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('disbursementForm');
+      const submitButton = document.getElementById('submitButton');
+      const resetButton = document.getElementById('resetButton');
+      const successMessage = document.getElementById('successMessage');
+      const datepicker = document.getElementById('datepicker');
+      const dateButton = document.getElementById('dateButton');
+      const dateText = document.getElementById('dateText');
+      const calendarDate = document.getElementById('calendarDate');
+      const dateInput = document.getElementById('date');
+      const today = new Date();
+      const formattedDate = today.toISOString().split('T')[0];
+      calendarDate.value = formattedDate;
+      dateInput.value = formattedDate;
+      dateText.textContent = formatDate(today);
+      dateButton.addEventListener('click', function() {
+        datepicker.classList.toggle('open');
+      });
+    
+      document.addEventListener('click', function(event) {
+        if (!datepicker.contains(event.target)) {
+          datepicker.classList.remove('open');
+        }
+      });
+      
+      calendarDate.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        dateInput.value = this.value;
+        dateText.textContent = formatDate(selectedDate);
+        datepicker.classList.remove('open');
+      });
+
+      function formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+      }
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        if (validateForm()) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Processing...';
+          
+          setTimeout(function() {
+            const formData = new FormData(form);
+            const formValues = Object.fromEntries(formData.entries());
+            console.log('Form submitted:', formValues);
+            
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Voucher';
+            successMessage.style.display = 'flex';
+ 
+            setTimeout(function() {
+              successMessage.style.display = 'none';
+            }, 3000);
+          }, 1500);
+        }
+      });
+   
+      resetButton.addEventListener('click', function() {
+        form.reset();
+
+        calendarDate.value = formattedDate;
+        dateInput.value = formattedDate;
+        dateText.textContent = formatDate(today);
+        
+
+        const errorElements = document.querySelectorAll('.form-message');
+        errorElements.forEach(function(element) {
+          element.textContent = '';
+        });
+
+        successMessage.style.display = 'none';
+      });
+
+      function validateForm() {
+        let isValid = true;
+        
+        const requiredFields = [
+          { id: 'voucherNo', error: 'voucherNoError', message: 'Voucher number is required' },
+          { id: 'payeeName', error: 'payeeNameError', message: 'Payee name is required' },
+          { id: 'payeeAddress', error: 'payeeAddressError', message: 'Payee address is required' },
+          { id: 'paymentMode', error: 'paymentModeError', message: 'Payment mode is required' },
+          { id: 'amount', error: 'amountError', message: 'Amount is required' },
+          { id: 'purpose', error: 'purposeError', message: 'Purpose is required' },
+          { id: 'accountCode', error: 'accountCodeError', message: 'Account code is required' },
+          { id: 'department', error: 'departmentError', message: 'Department is required' },
+          { id: 'preparedBy', error: 'preparedByError', message: 'Preparer name is required' },
+          { id: 'approvedBy', error: 'approvedByError', message: 'Approver name is required' }
+        ];
+ 
+        requiredFields.forEach(field => {
+          document.getElementById(field.error).textContent = '';
+        });
+        
+
+        requiredFields.forEach(field => {
+          const input = document.getElementById(field.id);
+          if (!input.value.trim()) {
+            document.getElementById(field.error).textContent = field.message;
+            isValid = false;
+          }
+        });
+        
+        return isValid;
+      }
+    });
+  </script>
+</body>
+</html>
