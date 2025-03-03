@@ -27,7 +27,7 @@
     </div>
     <div class="login-container">
         <div class="logo" style="display: flex; justify-content: center;">
-            <img src="pictures/dti_logo.png" alt="Company Logo" width="100" height="100">
+            <img src="css/dti_logo.png" alt="Company Logo" width="100" height="100">
         </div>
 
 
