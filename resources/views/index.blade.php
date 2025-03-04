@@ -7,7 +7,7 @@
     <title>Login</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <link rel="stylesheet" href="resources/views/css/index.css">
+    @vite('resources/css/app.css')
 </head>
 
 <body>
@@ -27,39 +27,28 @@
     </div>
     <div class="login-container">
         <div class="logo" style="display: flex; justify-content: center;">
-            <img src="css/dti_logo.png" alt="Company Logo" width="100" height="100">
+            <img src="public/dti_logo.png" alt="Company Logo" width="100" height="100">
         </div>
 
 
-        <form action="Dashboard.html" method="get">
+        <form>
             <div class="form-group">
                 <label for="email">Email</label>
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="off">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" id="password" name="password" placeholder="Enter your password">
+                <input type="password" id="password" name="password" placeholder="Enter your password"
+                    autocomplete="off">
             </div>
-            <button type="submit" name="send_otp">Login</button>
+            <button type="submit">Login</button>
+            <a href="{{ route('reports') }}">go to reports</a>
 
         </form>
     </div>
 
-
-    <script>
-        document.getElementById('otp').addEventListener('input', function (e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        document.getElementById('otp').addEventListener('input', function (e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-        document.getElementById('loginForm').addEventListener('submit', function () {
-            document.getElementById('spinnerOverlay').style.display = 'flex';
-        });
-    </script>
 </body>
 
 </html>
