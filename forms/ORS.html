@@ -9,248 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <link rel="stylesheet" href="CSS/dashboard.css">
 <link rel="stylesheet" href="CSS/sidebar.css">
-<style>
-    .form-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .form-title {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #03045e;
-    }
-    
-    .form-section {
-        margin-bottom: 30px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 20px;
-    }
-    
-    .form-section h3 {
-        color: #0077b6;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-    }
-    
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 -10px;
-        margin-bottom: 15px;
-    }
-    
-    .form-group {
-        flex: 1;
-        min-width: 250px;
-        padding: 0 10px;
-        margin-bottom: 15px;
-    }
-    
-    .form-group.full-width {
-        flex: 0 0 100%;
-    }
-    
-    .form-group.half-width {
-        flex: 0 0 50%;
-    }
-    
-    .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #2B2D42;
-    }
-    
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f8f9fa;
-        transition: all 0.3s ease;
-    }
-    
-    .form-control:focus {
-        outline: none;
-        border-color: #0077b6;
-        box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
-    }
-    
-    textarea.form-control {
-        min-height: 100px;
-        resize: vertical;
-    }
-    
-    .checkbox-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .checkbox-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .btn-container {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 30px;
-    }
-    
-    .btn {
-        padding: 12px 20px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-primary {
-        background-color: #0077b6;
-        color: white;
-    }
-    
-    .btn-primary:hover {
-        background-color: #03045e;
-    }
-    
-    .btn-secondary {
-        background-color: #8d99ae;
-        color: white;
-    }
-    
-    .btn-secondary:hover {
-        background-color: #2B2D42;
-    }
-    
-    .table-responsive {
-        overflow-x: auto;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    table th, table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-    
-    table th {
-        background-color: #f8f9fa;
-        color: #666;
-        font-weight: 500;
-    }
-    
-    .signature-box {
-        border: 1px dashed #ddd;
-        height: 100px;
-        border-radius: 8px;
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #aaa;
-        cursor: pointer;
-    }
-    
-    .signature-box:hover {
-        background-color: #f8f9fa;
-    }
-    
-    /* Responsive Adjustments */
-    @media (max-width: 992px) {
-        .form-group.half-width {
-            flex: 0 0 100%;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .dashboard-container {
-            grid-template-columns: 1fr;
-        }
-        
-        .sidebar {
-            display: none;
-        }
-        
-        .form-container {
-            padding: 20px;
-        }
-        
-        .form-row {
-            flex-direction: column;
-        }
-        
-        .form-group {
-            min-width: 100%;
-        }
-    }
-    
-    @media print {
-        body {
-            background-color: white;
-        }
-        
-        .sidebar, .btn-container {
-            display: none;
-        }
-        
-        .dashboard-container {
-            display: block;
-        }
-        
-        .form-container {
-            box-shadow: none;
-            padding: 0;
-        }
-    }
-    
-    /* Custom styles for calculation fields */
-    .calculation-field {
-        background-color: #edf2f7;
-        cursor: not-allowed;
-    }
-    
-    /* Accounting entry table */
-    .accounting-entry-table th:nth-child(1),
-    .accounting-entry-table td:nth-child(1) {
-        width: 40%;
-    }
-    
-    .accounting-entry-table th:nth-child(2),
-    .accounting-entry-table td:nth-child(2) {
-        width: 20%;
-    }
-    
-    .accounting-entry-table th:nth-child(3),
-    .accounting-entry-table th:nth-child(4),
-    .accounting-entry-table td:nth-child(3),
-    .accounting-entry-table td:nth-child(4) {
-        width: 20%;
-    }
-    
-    /* Tax fields container for show/hide functionality */
-    .tax-fields {
-        width: 100%;
-        transition: all 0.3s ease;
-    }
-    
-    .tax-fields.hidden {
-        display: none;
-    }
-</style>
+<link rel="stylesheet" href="CSS/ORS.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -262,9 +21,7 @@
                     <span class="admin-text">Book Keeper</span>
                 </div>
             </div>
-            <a href="Dashboard.html" class="nav-item">
-                <ion-icon name="home-outline"></ion-icon>
-                <span class="nav-text">Dashboard</span>
+           
             </a>
             <div class="nav-item dropdown">
                 <div class="dropdown-header">
@@ -277,21 +34,12 @@
                         <span class="nav-text">Obligation Request</span>
                     </a>
                     <a href="DV.html" class="dropdown-item">
-                        <span class="nav-text">Disbursement Voucher</span>
+                        <span class="nav-text">DV & JE</span>
                     </a>
-                    <a href="CompletedDisbursements.html" class="dropdown-item">
-                        <span class="nav-text"> Journal Entry Voucher</span>
-                    </a>
+                  
                 </div>
             </div>
-            <a href="Reports.html" class="nav-item">
-                <ion-icon name="document-text-outline"></ion-icon>
-                <span class="nav-text">Reports</span>
-            </a>
-            <div class="nav-item">
-                <ion-icon name="settings-outline"></ion-icon>
-                <span class="nav-text">Settings</span>
-            </div>
+           
         </div>
 
         
@@ -330,32 +78,7 @@
                         </div>
                     </div>
                     
-                    <!-- <div class="form-section">
-                        <h3>Mode of Payment</h3>
-                        <div class="form-row">
-                            <div class="form-group full-width">
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="mds" name="payment_mode">
-                                        <label for="mds">MDS Check</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="commercial" name="payment_mode">
-                                        <label for="commercial">Commercial Check</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="ada" name="payment_mode">
-                                        <label for="ada">ADA</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="others" name="payment_mode">
-                                        <label for="others">Others (Specify):</label>
-                                        <input type="text" class="form-control" style="width: 200px;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                   
                     <!-- Payee Details Section -->
                     <div class="form-section">
                         <h3> Payee Details</h3>
@@ -392,64 +115,11 @@
                                 <label class="form-label">Responsibility Center</label>
                                 <input type="text" class="form-control">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">OO/PAP</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Amount</label>
-                                <input type="number" class="form-control" id="amount" step="0.01" onchange="calculateTaxes()">
-                            </div>
+                             
+                            
                         </div>
                     </div>
-                    
-                    <!-- Breakdown of Expenses Section
-                    <div class="form-section">
-                        <h3>Breakdown of Expenses</h3>
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label class="form-label">Gross Amount</label>
-                                <input type="number" class="form-control" id="gross_amount" step="0.01" onchange="calculateTaxes()">
-                            </div>
-                            <div class="form-group half-width">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" class="apply_taxes" id="apply_taxes" checked onchange="toggleTaxFields()">
-                                    <label for="apply_taxes">Apply Tax Calculations</label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="tax_fields_container" class="tax-fields">
-                            <div class="form-row">
-                                <div class="form-group half-width">
-                                    <label class="form-label">VAT <input type="number" class="tax-percentage" id="vat_percentage" value="12" min="0" max="100" step="0.01" onchange="calculateTaxes()"> %</label>
-                                    <input type="number" class="form-control calculation-field" id="vat_amount" step="0.01" readonly>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Tax Base</label>
-                                    <input type="number" class="form-control calculation-field" id="tax_base" step="0.01" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Less: <input type="number" class="tax-percentage" id="tax1_percentage" value="5" min="0" max="100" step="0.01" onchange="calculateTaxes()"> % Tax</label>
-                                    <input type="number" class="form-control calculation-field" id="tax_1" step="0.01" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Less: <input type="number" class="tax-percentage" id="tax2_percentage" value="2" min="0" max="100" step="0.01" onchange="calculateTaxes()"> % Tax</label>
-                                    <input type="number" class="form-control calculation-field" id="tax_2" step="0.01" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Net Amount</label>
-                                <input type="number" class="form-control calculation-field" id="net_amount" step="0.01" readonly>
-                            </div>
-                        </div>
-                    </div>
-                     -->
+                
                     <!-- Accounting Entry Section -->
                     <div class="form-section">
                         <h3>Accounting Entry</h3>
@@ -458,9 +128,9 @@
                                 <thead>
                                     <tr>
                                         <th>Account Title</th>
-                                        <th>UACS Code</th>
-                                        <th>Debit Amount</th>
-                                        <th>Credit Amount</th>
+                                        <th>OO/PAP</th>
+                                        <th>UACS Object Code</th>
+                                        <th>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -506,35 +176,29 @@
                             </table>
                         </div>
                     </div>
+           
                     
                     <!-- Receipt Section -->
-                    <!-- <div class="form-section">
-                        <h3>9. Receipt of Payment</h3>
+                    <div class="form-section">
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Check/ADA No.</label>
-                                <input type="text" class="form-control">
+                                <label class="form-label">Chief Administrative Officer</label>
+                                <select class="form-control">
+                                    <option>HAZEL E. HAUTEA</option>
+                               
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Date of Payment</label>
-                                <input type="date" class="form-control">
+                                <label class="form-label">Budget Officer</label>
+                                <select class="form-control">
+                                    <option>CONNIE M. BARNACHEA</option>
+                                  
+                                </select>
                             </div>
+
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Bank Name & Account No.</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Printed Name of Receiver</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">JEV No.</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div> -->
+                       
+                    </div> 
                     
                     <!-- Form Buttons -->
                     <div class="btn-container">
