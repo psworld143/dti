@@ -9,648 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <link rel="stylesheet" href="CSS/dashboard.css">
     <link rel="stylesheet" href="CSS/sidebar.css">
-<style>
-    .form-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .form-title {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #03045e;
-    }
-    
-    .form-section {
-        margin-bottom: 30px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 20px;
-    }
-    
-    .form-section h3 {
-        color: #0077b6;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-    }
-    
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 -10px;
-        margin-bottom: 15px;
-    }
-    
-    .form-group {
-        flex: 1;
-        min-width: 250px;
-        padding: 0 10px;
-        margin-bottom: 15px;
-    }
-    
-    .form-group.full-width {
-        flex: 0 0 100%;
-    }
-    
-    .form-group.half-width {
-        flex: 0 0 50%;
-    }
-    
-    .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #2B2D42;
-    }
-    
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f8f9fa;
-        transition: all 0.3s ease;
-    }
-    
-    .form-control:focus {
-        outline: none;
-        border-color: #0077b6;
-        box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
-    }
-    
-    textarea.form-control {
-        min-height: 100px;
-        resize: vertical;
-    }
-    
-    .checkbox-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .checkbox-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    .btn-container {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 30px;
-    }
-    
-    .btn {
-        padding: 12px 20px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-primary {
-        background-color: #0077b6;
-        color: white;
-    }
-    
-    .btn-primary:hover {
-        background-color: #03045e;
-    }
-    
-    .btn-secondary {
-        background-color: #8d99ae;
-        color: white;
-    }
-    
-    .btn-secondary:hover {
-        background-color: #2B2D42;
-    }
-    
-    .table-responsive {
-        overflow-x: auto;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        border-radius: 8px;
-        overflow: hidden;
-    }
-    
-    table th, table td {
-        padding: 14px 16px;
-        text-align: left;
-        border-bottom: 1px solid #e8e8e8;
-        vertical-align: middle;
-    }
-    
-    /* Table header */
-    table th {
-        background-color: #f1f5f9;
-        color: #475569;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        letter-spacing: 0.5px;
-        border-top: none;
-    }
-    
-    /* Zebra striping for better readability */
-    table tbody tr:nth-child(even) {
-        background-color: #f8fafc;
-    }
-    
-    table tbody tr:hover {
-        background-color: #f0f9ff;
-        transition: background-color 0.2s ease;
-    }
-    .assessments-table {
-        font-size: 0.95rem;
-    }
-    
-    .assessments-table th:first-child,
-    .assessments-table td:first-child {
-        padding-left: 20px;
-    }
-    
-    .assessments-table th:last-child,
-    .assessments-table td:last-child {
-        padding-right: 20px;
-    }
-    
-    /* Better styling for accounting entry table */
-    .accounting-entry-table th {
-        background-color: #f0f6ff;
-    }
-    
-    .accounting-entry-table input, 
-    .accounting-entry-table select {
-        border: 1px solid #e2e8f0;
-        padding: 8px 10px;
-        border-radius: 6px;
-        width: 100%;
-        font-size: 0.9rem;
-    }
-    
-    .accounting-entry-table input:focus, 
-    .accounting-entry-table select:focus {
-        border-color: #3b82f6;
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-    }
-    
-    .accounting-entry-table tfoot tr:first-child {
-        border-top: 2px solid #cbd5e1;
-        font-weight: bold;
-    }
-    
-    .accounting-entry-table tfoot input {
-        font-weight: bold;
-        background-color: #f1f5f9;
-    }
-    
-    .signature-box {
-        border: 1px dashed #ddd;
-        height: 100px;
-        border-radius: 8px;
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #aaa;
-        cursor: pointer;
-    }
-    
-    .signature-box:hover {
-        background-color: #f8f9fa;
-    }
-    
-    /* Responsive Adjustments */
-    @media (max-width: 992px) {
-        .form-group.half-width {
-            flex: 0 0 100%;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .dashboard-container {
-            grid-template-columns: 1fr;
-        }
-        
-        .sidebar {
-            display: none;
-        }
-        
-        .form-container {
-            padding: 20px;
-        }
-        
-        .form-row {
-            flex-direction: column;
-        }
-        
-        .form-group {
-            min-width: 100%;
-        }
-        table th, table td {
-            padding: 10px 12px;
-        }
-        
-        .severity-badge {
-            padding: 4px 8px;
-        }
-        
-        .view-button {
-            padding: 6px 10px;
-        }
-    }
-    
-    /* Timeline styles */
-.status-timeline {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-}
-
-.timeline-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    flex: 1;
-}
-
-.timeline-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 15px;
-    width: 100%;
-    height: 2px;
-    background-color: #ddd;
-    left: 50%;
-}
-
-.timeline-point {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #f8f9fa;
-    border: 2px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-}
-
-.timeline-point.completed {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: white;
-}
-
-.timeline-point.active {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-}
-
-.timeline-label {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #666;
-}
-
-.timeline-label.completed {
-    color: #28a745;
-    font-weight: 500;
-}
-
-.timeline-label.active {
-    color: #007bff;
-    font-weight: 500;
-}
-
-/* Badge styles */
-.badge {
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.badge-info {
-    background-color: #17a2b8;
-    color: white;
-}
-
-.badge-success {
-    background-color: #28a745;
-    color: white;
-}
-
-/* Approval info styles */
-.approval-info {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 5px;
-    font-size: 14px;
-}
-
-.approval-info.approved {
-    color: #28a745;
-}
-
-.approval-info.pending {
-    color: #ffc107;
-}
-
-/* Form value styles */
-.form-value {
-    padding: 8px 0;
-    font-weight: 500;
-}
-    @media print {
-        body {
-            background-color: white;
-        }
-        
-        .sidebar, .btn-container {
-            display: none;
-        }
-        
-        .dashboard-container {
-            display: block;
-        }
-        
-        .form-container {
-            box-shadow: none;
-            padding: 0;
-        }
-    }
-    
-    /* Custom styles for calculation fields */
-    .calculation-field {
-        background-color: #edf2f7;
-        cursor: not-allowed;
-    }
-    
-    /* Tax percentage input field */
-    .tax-percentage {
-        width: 50px;
-        padding: 3px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        text-align: center;
-    }
-    
-    /* Accounting entry table */
-    .accounting-entry-table th:nth-child(1),
-    .accounting-entry-table td:nth-child(1) {
-        width: 40%;
-    }
-    
-    .accounting-entry-table th:nth-child(2),
-    .accounting-entry-table td:nth-child(2) {
-        width: 20%;
-    }
-    
-    .accounting-entry-table th:nth-child(3),
-    .accounting-entry-table th:nth-child(4),
-    .accounting-entry-table td:nth-child(3),
-    .accounting-entry-table td:nth-child(4) {
-        width: 20%;
-    }
-    
-    /* Modal Styles */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        overflow: auto;
-    }
-    
-    .modal-content {
-        background-color: white;
-        margin: 5% auto;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        width: 80%;
-        max-width: 900px;
-        position: relative;
-        animation: modalopen 0.4s;
-    }
-    
-    @keyframes modalopen {
-        from {opacity: 0; transform: translateY(-60px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
-    
-    .close-modal {
-        position: absolute;
-        right: 20px;
-        top: 15px;
-        font-size: 28px;
-        font-weight: bold;
-        color: #aaa;
-        cursor: pointer;
-        transition: color 0.3s;
-    }
-    
-    .close-modal:hover {
-        color: #03045e;
-    }
-    
-    .modal-header {
-        padding-bottom: 15px;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .modal-footer {
-        padding-top: 15px;
-        margin-top: 20px;
-        border-top: 1px solid #eee;
-        text-align: right;
-    }
-    
-    .detail-row {
-        display: flex;
-        margin-bottom: 15px;
-    }
-    
-    .detail-label {
-        flex: 0 0 200px;
-        font-weight: 500;
-        color: #666;
-    }
-    
-    .detail-value {
-        flex: 1;
-    }
-
-    /* Severity badges */
-    .severity-badge {
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 500;
-        display: inline-block;
-    }
-    
-    .severity-high {
-        background-color: #ff4757;
-        color: white;
-    }
-    .view-button {
-        padding: 8px 14px;
-        background-color: #0ea5e9;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.75rem;
-        font-weight: 600;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    .view-button:hover {
-        background-color: #0284c7;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .view-button:active {
-        transform: translateY(0);
-    }
-    /* Sidebar */
-    .sidebar {
-        width: 250px;
-       
-        height: 100vh;
-        position: fixed;
-
-        transition: all 0.3s ease;
-    }
-
-    /* Main content */
-    .dashboard-container {
-        display: flex;
-    }
-
-    .main-content {
-        flex: 1;
-        margin-left: 250px;
-        padding: 20px;
-    }
-
-    .header {
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #eee;
-    }
-    /* Filter styles enhancement */
-.filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #f8fafc;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-}
-
-.filter-item {
-    flex: 1;
-    min-width: 200px;
-}
-
-.filter-item label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
-    color: #475569;
-    font-size: 0.9rem;
-}
-
-.filter-item select, 
-.filter-item input {
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #cbd5e1;
-    background-color: white;
-    font-size: 0.9rem;
-}
-
-.filter-item select:focus, 
-.filter-item input:focus {
-    border-color: #3b82f6;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-}
-
-/* Add a filtering active indicator */
-.filters.active-filters {
-    border-color: #93c5fd;
-    background-color: #eff6ff;
-}
-
-/* Clear filters button */
-.clear-filters {
-    padding: 8px 16px;
-    background-color: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: #475569;
-    transition: all 0.2s ease;
-    align-self: flex-end;
-}
-
-.clear-filters:hover {
-    background-color: #e2e8f0;
-    color: #1e293b;
-}
-
-/* Status indicator additions */
-.severity-with-balance {
-    background-color: #e0f2fe;
-    color: #0369a1;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .filters {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .filter-item {
-        min-width: 100%;
-    }
-}
-</style>
+    <link rel="stylesheet" href="CSS/DV.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -662,10 +21,7 @@
                     <span class="admin-text">Book Keeper</span>
                 </div>
             </div>
-            <a href="Dashboard.html" class="nav-item">
-                <ion-icon name="home-outline"></ion-icon>
-                <span class="nav-text">Dashboard</span>
-            </a>
+          
             <div class="nav-item dropdown">
                 <div class="dropdown-header">
                     <ion-icon name="cash-outline"></ion-icon>
@@ -678,22 +34,14 @@
                     </a>
 
                     <a href="DV.html" class="dropdown-item">
-                        <span class="nav-text">Disbursement Voucher</span>
+                        <span class="nav-text">DV & JE</span>
                     </a>
                   
-                    <a href="CompletedDisbursements.html" class="dropdown-item">
-                        <span class="nav-text"> Journal Entry Voucher</span>
-                    </a>
+                   
                 </div>
             </div>
-            <a href="Reports.html" class="nav-item">
-                <ion-icon name="document-text-outline"></ion-icon>
-                <span class="nav-text">Reports</span>
-            </a>
-            <div class="nav-item">
-                <ion-icon name="settings-outline"></ion-icon>
-                <span class="nav-text">Settings</span>
-            </div>
+          
+           
         </div>
 
         
@@ -743,7 +91,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Sample data rows -->
+                          
                             <tr>
                                 <td>RM-25-02-032</td>
                                 <td>ESTER WATER MARKET FILTRATION & PURI....</td>
@@ -769,8 +117,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
     <div id="dvFormModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -779,7 +125,6 @@
             </div>
             <div class="modal-body">
                 <div class="form-container">
-                    <!-- General Information Section -->
                     <div class="form-section">
                         <h3>General Information</h3>
                         <div class="form-row">
@@ -984,6 +329,26 @@
                             </table>
                         </div>
                     </div>
+
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Chief Accountant</label>
+                                <select class="form-control">
+                                    <option>NEIL ANTHONY T. MORALA</option>
+                               
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Regional Directorbr</label>
+                                <select class="form-control">
+                                    <option>FLORA D. POLITUD-GABUNALES, CESO V</option>
+                                  
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
                     
                     <!-- Receipt Section -->
                     <div class="form-section">
@@ -1025,252 +390,239 @@
     </div>
 
     <script>
+        // Submit redirectory//
         function redirectToPage() {
             window.location.href = "DVForm.html";
           }
-          
-document.addEventListener('DOMContentLoaded', function() {
-    const dateFilter = document.getElementById('date-filter');
-    const statusFilter = document.getElementById('status-filter');
-    const payeeFilter = document.getElementById('payee-filter');
-    const clearFiltersBtn = document.getElementById('clear-filters');
-    const filtersContainer = document.querySelector('.filters');
     
-    // Add event listeners for all filters
-    dateFilter.addEventListener('change', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-    payeeFilter.addEventListener('input', applyFilters);
-    
-    // Clear filters button
-    clearFiltersBtn.addEventListener('click', function() {
-        dateFilter.value = '';
-        statusFilter.value = '';
-        payeeFilter.value = '';
-        applyFilters();
-    });
-    
-    function applyFilters() {
-        const selectedDate = dateFilter.value;
-        const selectedStatus = statusFilter.value.toLowerCase();
-        const searchPayee = payeeFilter.value.toLowerCase();
-        
-        // Check if any filters are active
-        const hasActiveFilters = selectedDate || selectedStatus || searchPayee;
-        
-        // Update filters container class
-        if (hasActiveFilters) {
-            filtersContainer.classList.add('active-filters');
-        } else {
-            filtersContainer.classList.remove('active-filters');
-        }
-        
-        // Get all table rows
-        const tableRows = document.querySelectorAll('.assessments-table tbody tr');
-        
-        // Filter each row
-        tableRows.forEach(row => {
-            let showRow = true;
-            
-            // Check date filter
-            if (selectedDate) {
-                const dateCell = row.querySelector('td:nth-child(5)').textContent.trim();
-                if (dateCell !== selectedDate) {
-                    showRow = false;
-                }
-            }
-            
-            // Check status filter
-            if (showRow && selectedStatus) {
-                const statusCell = row.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
-                if (!statusCell.includes(selectedStatus)) {
-                    showRow = false;
-                }
-            }
-            
-            // Check payee filter
-            if (showRow && searchPayee) {
-                const payeeCell = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
-                if (!payeeCell.includes(searchPayee)) {
-                    showRow = false;
-                }
-            }
-            
-            // Show or hide row
-            row.style.display = showRow ? '' : 'none';
-        });
-        
-        // Update results count if needed
-        updateResultsCount();
-    }
-    
-    function updateResultsCount() {
-        const visibleRows = document.querySelectorAll('.assessments-table tbody tr:not([style*="display: none"])');
-        const totalRows = document.querySelectorAll('.assessments-table tbody tr');
-        
-        // You can add a results counter element if needed
-        console.log(`Showing ${visibleRows.length} of ${totalRows.length} records`);
-    }
-});
-        
-        function toggleTaxFields() {
-            const applyTaxesCheckbox = document.getElementById('apply_taxes');
-            const taxFieldsContainer = document.getElementById('tax_fields_container');
-            if (applyTaxesCheckbox.checked) {
-                taxFieldsContainer.style.display = 'block';
-             
-                calculateTaxes();
-            } else {
-                taxFieldsContainer.style.display = 'none';
-
-                document.getElementById('vat_amount').value = '0.00';
-                document.getElementById('tax_1').value = '0.00';
-                document.getElementById('tax_2').value = '0.00';
-                document.getElementById('tax_base').value = '0.00';
-                
-             
-                const grossAmount = parseFloat(document.getElementById('gross_amount').value) || 0;
-                document.getElementById('net_amount').value = grossAmount.toFixed(2);
-            
-                const amountField = document.getElementById('amount');
-                if (!amountField.value) {
-                    amountField.value = grossAmount.toFixed(2);
-                }
-            }
-        }
-        
-   
+          //Filter Funcitons//
         document.addEventListener('DOMContentLoaded', function() {
-            toggleTaxFields();
+            const dateFilter = document.getElementById('date-filter');
+            const statusFilter = document.getElementById('status-filter');
+            const payeeFilter = document.getElementById('payee-filter');
+            const clearFiltersBtn = document.getElementById('clear-filters');
+            const filtersContainer = document.querySelector('.filters');
+
+            dateFilter.addEventListener('change', applyFilters);
+            statusFilter.addEventListener('change', applyFilters);
+            payeeFilter.addEventListener('input', applyFilters);
+
+            clearFiltersBtn.addEventListener('click', function() {
+                dateFilter.value = '';
+                statusFilter.value = '';
+                payeeFilter.value = '';
+                applyFilters();
+            });
+            
+            function applyFilters() {
+                const selectedDate = dateFilter.value;
+                const selectedStatus = statusFilter.value.toLowerCase();
+                const searchPayee = payeeFilter.value.toLowerCase();
+
+                const hasActiveFilters = selectedDate || selectedStatus || searchPayee;
+
+                if (hasActiveFilters) {
+                    filtersContainer.classList.add('active-filters');
+                } else {
+                    filtersContainer.classList.remove('active-filters');
+                }
+                const tableRows = document.querySelectorAll('.assessments-table tbody tr');
+                
+                tableRows.forEach(row => {
+                    let showRow = true;
+                    if (selectedDate) {
+                        const dateCell = row.querySelector('td:nth-child(5)').textContent.trim();
+                        if (dateCell !== selectedDate) {
+                            showRow = false;
+                        }
+                    }
+                    if (showRow && selectedStatus) {
+                        const statusCell = row.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
+                        if (!statusCell.includes(selectedStatus)) {
+                            showRow = false;
+                        }
+                    }
+                    if (showRow && searchPayee) {
+                        const payeeCell = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                        if (!payeeCell.includes(searchPayee)) {
+                            showRow = false;
+                        }
+                    }
+
+                    row.style.display = showRow ? '' : 'none';
+                });
+                
+                updateResultsCount();
+            }
+            
+            function updateResultsCount() {
+                const visibleRows = document.querySelectorAll('.assessments-table tbody tr:not([style*="display: none"])');
+                const totalRows = document.querySelectorAll('.assessments-table tbody tr');
+                console.log(`Showing ${visibleRows.length} of ${totalRows.length} records`);
+            }
         });
-function calculateTaxes() {
-    const grossAmount = parseFloat(document.getElementById('gross_amount').value) || 0;
-    const vatPercentage = parseFloat(document.getElementById('vat_percentage').value) || 0;
-    const tax1Percentage = parseFloat(document.getElementById('tax1_percentage').value) || 0;
-    const tax2Percentage = parseFloat(document.getElementById('tax2_percentage').value) || 0;
-    const vatAmount = grossAmount * (vatPercentage / 100);
-    
-    const taxBase = grossAmount - vatAmount;
-    const tax1 = taxBase * (tax1Percentage / 100);
-    const tax2 = taxBase * (tax2Percentage / 100);
-    const netAmount = grossAmount - vatAmount - tax1 - tax2;
-    document.getElementById('vat_amount').value = vatAmount.toFixed(2);
-    document.getElementById('tax_base').value = taxBase.toFixed(2);
-    document.getElementById('tax_1').value = tax1.toFixed(2);
-    document.getElementById('tax_2').value = tax2.toFixed(2);
-    document.getElementById('net_amount').value = netAmount.toFixed(2);
-    const amountField = document.getElementById('amount');
-    if (!amountField.value) {
-        amountField.value = grossAmount.toFixed(2);
-    }
-}
+                
+        // Tax Calculation Functions toggle//
+                function toggleTaxFields() {
+                    const applyTaxesCheckbox = document.getElementById('apply_taxes');
+                    const taxFieldsContainer = document.getElementById('tax_fields_container');
+                    if (applyTaxesCheckbox.checked) {
+                        taxFieldsContainer.style.display = 'block';
+                    
+                        calculateTaxes();
+                    } else {
+                        taxFieldsContainer.style.display = 'none';
 
-function calculateTotals() {
-    const debitAmounts = document.querySelectorAll('.debit-amount');
-    const creditAmounts = document.querySelectorAll('.credit-amount');
-    
-    let totalDebit = 0;
-    let totalCredit = 0;
-    
-    debitAmounts.forEach(input => {
-        totalDebit += parseFloat(input.value) || 0;
-    });
-    
-    creditAmounts.forEach(input => {
-        totalCredit += parseFloat(input.value) || 0;
-    });
-    
-    document.getElementById('total-debit').value = totalDebit.toFixed(2);
-    document.getElementById('total-credit').value = totalCredit.toFixed(2);
-}
+                        document.getElementById('vat_amount').value = '0.00';
+                        document.getElementById('tax_1').value = '0.00';
+                        document.getElementById('tax_2').value = '0.00';
+                        document.getElementById('tax_base').value = '0.00';
+                        
+                    
+                        const grossAmount = parseFloat(document.getElementById('gross_amount').value) || 0;
+                        document.getElementById('net_amount').value = grossAmount.toFixed(2);
+                    
+                        const amountField = document.getElementById('amount');
+                        if (!amountField.value) {
+                            amountField.value = grossAmount.toFixed(2);
+                        }
+                    }
+                }
+                
+        
+                document.addEventListener('DOMContentLoaded', function() {
+                    toggleTaxFields();
+                });
 
 
-document.getElementById('addAccountRow').addEventListener('click', function() {
-    const tableBody = document.getElementById('accountingTableBody');
-    const newRow = document.createElement('tr');
-    
-    newRow.innerHTML = `
-        <td>
-            <select class="form-control">
-                <option>Select Account</option>
-                <option>Supplies Expense</option>
-                <option>Traveling Expenses - Local</option>
-                <option>Representation Expenses</option>
-                <option>Accounts Payable</option>
-            </select>
-        </td>
-        <td><input type="text" class="form-control"></td>
-        <td><input type="number" class="form-control debit-amount" step="0.01" onchange="calculateTotals()"></td>
-        <td><input type="number" class="form-control credit-amount" step="0.01" onchange="calculateTotals()"></td>
-    `;
-    
-    tableBody.appendChild(newRow);
-});
+                function calculateTaxes() {
+                    const grossAmount = parseFloat(document.getElementById('gross_amount').value) || 0;
+                    const vatPercentage = parseFloat(document.getElementById('vat_percentage').value) || 0;
+                    const tax1Percentage = parseFloat(document.getElementById('tax1_percentage').value) || 0;
+                    const tax2Percentage = parseFloat(document.getElementById('tax2_percentage').value) || 0;
+                    const vatAmount = grossAmount * (vatPercentage / 100);
+                    
+                    const taxBase = grossAmount - vatAmount;
+                    const tax1 = taxBase * (tax1Percentage / 100);
+                    const tax2 = taxBase * (tax2Percentage / 100);
+                    const netAmount = grossAmount - vatAmount - tax1 - tax2;
+                    document.getElementById('vat_amount').value = vatAmount.toFixed(2);
+                    document.getElementById('tax_base').value = taxBase.toFixed(2);
+                    document.getElementById('tax_1').value = tax1.toFixed(2);
+                    document.getElementById('tax_2').value = tax2.toFixed(2);
+                    document.getElementById('net_amount').value = netAmount.toFixed(2);
+                    const amountField = document.getElementById('amount');
+                    if (!amountField.value) {
+                        amountField.value = grossAmount.toFixed(2);
+                    }
+                }
 
-// Clear form button functionality
-document.getElementById('clearFormBtn').addEventListener('click', function() {
-    const formInputs = document.querySelectorAll('.form-control:not(.calculation-field)');
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    
-    formInputs.forEach(input => {
-        input.value = '';
-    });
-    
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    
-    document.getElementById('vat_percentage').value = '12';
-    document.getElementById('tax1_percentage').value = '5';
-    document.getElementById('tax2_percentage').value = '2';
-    
-    document.getElementById('vat_amount').value = '';
-    document.getElementById('tax_base').value = '';
-    document.getElementById('tax_1').value = '';
-    document.getElementById('tax_2').value = '';
-    document.getElementById('net_amount').value = '';
-    document.getElementById('total-debit').value = '';
-    document.getElementById('total-credit').value = '';
-});
+                    function calculateTotals() {
+                        const debitAmounts = document.querySelectorAll('.debit-amount');
+                        const creditAmounts = document.querySelectorAll('.credit-amount');
+                        
+                        let totalDebit = 0;
+                        let totalCredit = 0;
+                        
+                        debitAmounts.forEach(input => {
+                            totalDebit += parseFloat(input.value) || 0;
+                        });
+                        
+                        creditAmounts.forEach(input => {
+                            totalCredit += parseFloat(input.value) || 0;
+                        });
+                        
+                        document.getElementById('total-debit').value = totalDebit.toFixed(2);
+                        document.getElementById('total-credit').value = totalCredit.toFixed(2);
+                    }
 
-function openDVModal(dvNumber) {
-    document.getElementById('dvFormModal').style.display = 'block';
- 
-    document.querySelector('.modal-title').textContent = `Disbursement Voucher: ${dvNumber}`;
-}
+                    
+        document.getElementById('addAccountRow').addEventListener('click', function() {
+            const tableBody = document.getElementById('accountingTableBody');
+            const newRow = document.createElement('tr');
+            
+            newRow.innerHTML = `
+                <td>
+                    <select class="form-control">
+                        <option>Select Account</option>
+                        <option>Supplies Expense</option>
+                        <option>Traveling Expenses - Local</option>
+                        <option>Representation Expenses</option>
+                        <option>Accounts Payable</option>
+                    </select>
+                </td>
+                <td><input type="text" class="form-control"></td>
+                <td><input type="number" class="form-control debit-amount" step="0.01" onchange="calculateTotals()"></td>
+                <td><input type="number" class="form-control credit-amount" step="0.01" onchange="calculateTotals()"></td>
+            `;
+            
+            tableBody.appendChild(newRow);
+        });
 
-document.getElementById('closeDvModal').addEventListener('click', function() {
-    document.getElementById('dvFormModal').style.display = 'none';
-});
+        document.getElementById('clearFormBtn').addEventListener('click', function() {
+            const formInputs = document.querySelectorAll('.form-control:not(.calculation-field)');
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            formInputs.forEach(input => {
+                input.value = '';
+            });
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            document.getElementById('vat_percentage').value = '12';
+            document.getElementById('tax1_percentage').value = '5';
+            document.getElementById('tax2_percentage').value = '2';
+            
+            document.getElementById('vat_amount').value = '';
+            document.getElementById('tax_base').value = '';
+            document.getElementById('tax_1').value = '';
+            document.getElementById('tax_2').value = '';
+            document.getElementById('net_amount').value = '';
+            document.getElementById('total-debit').value = '';
+            document.getElementById('total-credit').value = '';
+        });
 
-window.addEventListener('click', function(event) {
-    const modal = document.getElementById('dvFormModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
-const dropdowns = document.querySelectorAll('.dropdown');
-
-dropdowns.forEach(dropdown => {
-    const header = dropdown.querySelector('.dropdown-header');
-    
-    header.addEventListener('click', function() {
-        dropdown.classList.toggle('active');
-  
-        const icon = this.querySelector('.dropdown-icon');
-        if (dropdown.classList.contains('active')) {
-            icon.setAttribute('name', 'chevron-up-outline');
-        } else {
-            icon.setAttribute('name', 'chevron-down-outline');
+        function openDVModal(dvNumber) {
+            document.getElementById('dvFormModal').style.display = 'block';
+        
+            document.querySelector('.modal-title').textContent = `Disbursement Voucher: ${dvNumber}`;
         }
-    });
-});
+
+        document.getElementById('closeDvModal').addEventListener('click', function() {
+            document.getElementById('dvFormModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('dvFormModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const header = dropdown.querySelector('.dropdown-header');
+            
+            header.addEventListener('click', function() {
+                dropdown.classList.toggle('active');
+        
+                const icon = this.querySelector('.dropdown-icon');
+                if (dropdown.classList.contains('active')) {
+                    icon.setAttribute('name', 'chevron-up-outline');
+                } else {
+                    icon.setAttribute('name', 'chevron-down-outline');
+                }
+            });
+        });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    calculateTaxes();
-    calculateTotals();
-});
-    </script>
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateTaxes();
+            calculateTotals();
+        });
+            </script>
 </body>
 </html>
