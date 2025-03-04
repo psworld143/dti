@@ -1,215 +1,645 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disbursement Voucher Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+    <title>Dashboard</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<link rel="stylesheet" href="CSS/dashboard.css">
+<link rel="stylesheet" href="CSS/sidebar.css">
+<style>
+    .form-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #03045e;
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+    }
+    
+    .form-section h3 {
+        color: #0077b6;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+    
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+        margin-bottom: 15px;
+    }
+    
+    .form-group {
+        flex: 1;
+        min-width: 250px;
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+    
+    .form-group.full-width {
+        flex: 0 0 100%;
+    }
+    
+    .form-group.half-width {
+        flex: 0 0 50%;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #2B2D42;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #0077b6;
+        box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
+    }
+    
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
 
-        .container {
-            width: 80%;
-            margin: auto;
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background-color: #0077b6;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #03045e;
+    }
+    
+    .btn-secondary {
+        background-color: #8d99ae;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #2B2D42;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    table th, table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    table th {
+        background-color: #f8f9fa;
+        color: #666;
+        font-weight: 500;
+    }
+    
+    .signature-box {
+        border: 1px dashed #ddd;
+        height: 100px;
+        border-radius: 8px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        cursor: pointer;
+    }
+    
+    .signature-box:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .form-group.half-width {
+            flex: 0 0 100%;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .dashboard-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .sidebar {
+            display: none;
+        }
+        
+        .form-container {
             padding: 20px;
         }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        
+        .form-row {
+            flex-direction: column;
         }
-
-        .header {
-            text-align: left;
+        
+        .form-group {
+            min-width: 100%;
         }
-
-        .section {
-            margin-top: 15px;
+    }
+    
+    @media print {
+        body {
+            background-color: white;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        
+        .sidebar, .btn-container {
+            display: none;
         }
-
-        th,
-        td {
-            border: 1px solid black;
-            padding: 5px;
-            text-align: left;
-        }
-
-        .no-border {
-            border: none !important;
-        }
-
-        .centered h3,
-        .centered h5 {
-            margin: 5px 0;
-            text-align: center;
+        
+        .dashboard-container {
             display: block;
         }
-
-        .res {
-            vertical-align: text-top;
-            text-align: left;
+        
+        .form-container {
+            box-shadow: none;
+            padding: 0;
         }
-    </style>
+    }
+    
+    /* Custom styles for calculation fields */
+    .calculation-field {
+        background-color: #edf2f7;
+        cursor: not-allowed;
+    }
+    
+    /* Accounting entry table */
+    .accounting-entry-table th:nth-child(1),
+    .accounting-entry-table td:nth-child(1) {
+        width: 40%;
+    }
+    
+    .accounting-entry-table th:nth-child(2),
+    .accounting-entry-table td:nth-child(2) {
+        width: 20%;
+    }
+    
+    .accounting-entry-table th:nth-child(3),
+    .accounting-entry-table th:nth-child(4),
+    .accounting-entry-table td:nth-child(3),
+    .accounting-entry-table td:nth-child(4) {
+        width: 20%;
+    }
+    
+    /* Tax fields container for show/hide functionality */
+    .tax-fields {
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .tax-fields.hidden {
+        display: none;
+    }
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="container">
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo-container">
+                <img src="pictures/dti_logo.png" alt="Company Logo">
+                <div class="logo-text">
+                    <h2>DTI</h2>
+                    <span class="admin-text">Book Keeper</span>
+                </div>
+            </div>
+            <a href="Dashboard.html" class="nav-item">
+                <ion-icon name="home-outline"></ion-icon>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <div class="nav-item dropdown">
+                <div class="dropdown-header">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <span class="nav-text">Forms</span>
+                    <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
+                </div>
+                <div class="dropdown-content">
+                    <a href="ORS.html" class="dropdown-item">
+                        <span class="nav-text">Obligation Request</span>
+                    </a>
+                    <a href="DV.html" class="dropdown-item">
+                        <span class="nav-text">Disbursement Voucher</span>
+                    </a>
+                    <a href="CompletedDisbursements.html" class="dropdown-item">
+                        <span class="nav-text"> Journal Entry Voucher</span>
+                    </a>
+                </div>
+            </div>
+            <a href="Reports.html" class="nav-item">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <span class="nav-text">Reports</span>
+            </a>
+            <div class="nav-item">
+                <ion-icon name="settings-outline"></ion-icon>
+                <span class="nav-text">Settings</span>
+            </div>
+        </div>
 
-            <table>
-                <tr>
-                    <th colspan="3" class="centered">
-                        <h3>OBLIGATION REQUEST AND STATUS</h3><br>
-                        <h3>DEPARTMENT OF TRADE AND INDUSTRY 12</h3>
-                        <h5>Entity Name</h5>
-
-                    </th>
-                    <td rowspan="3" class="left-align">
-                        <p>Serial No.: <b>ADMIN&POLICY-25-02-008</b></p>
-                        <p>Date: <b>02-25-2025</b></p>
-                        <p>Fund cluster.: <b>Regular Agency Fund(01)</b></p>
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td>Payee</td>
-                    <td><b>CINCO NIÑAS RESTO</b></td>
-                </tr>
-
-                <tr>
-                    <td>Office</td>
-                    <td>DTI-XII</td>
-                </tr>
-
-                <tr>
-                    <td>Address</td>
-                    <td>KORONADAL CITY</td>
-                </tr>
-            </table>
-
-
-            <table>
-                <tr></tr>
-                <tr>
-                    <td>Responsibility Center</td>
-                    <td>Particulars</td>
-                    <td>OO/PAP</td>
-                    <td>UACS Object Code</td>
-                    <td>Amount</td>
-                </tr>
-
-                <tr>
-                    <td>22-001-03-00012-03</td>
-                    <td>To Payment of: <br>
-                        <b>Representation Expense</b> <br><br><br>
-                        Purpose: <br>
-                        <b>Payment of Meals during DTI RO AFMD and FO AO QMS Strat Planning Feb 6, 2025</b>
-
-                    </td>
-                    <div class="res">
-                        <td>GAS</td>
-                        <td>5029901000</td>
-                        <td>(15,000.00)</td>
+        
+        <div class="main-content">
+            <div class="header">
+                <h1>Obligation Request And Status</h1>
+                <button class="btn btn-primary" onclick="window.print()">
+                    <ion-icon name="print-outline"></ion-icon>
+                    Print Form
+                </button>
+            </div>
+            <div class="content-wrapper">
+                <div class="form-container">
+                    <h2 class="form-title">Obligation Request And Status</h2>
+                    
+                    <!-- General Information Section -->
+                    <div class="form-section">
+                        <h3>General Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Fund Cluster</label>
+                                <select class="form-control">
+                                    <option>Regular Agency Fund (01)</option>
+                                    <option>Special Purpose Fund (02)</option>
+                                    <option>Trust Receipts (03)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Disbursement Voucher No.</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
                     </div>
-
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Total</td>
-                    <td></td>
-                    <td></td>
-                    <td>15,000.00</td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td style="font-size: 12px; " colspan="2">Signature</td>
-                    <td style="font-size: 12px; " colspan="2">Signature</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;" colspan="2" class="name">
-                        <p style="text-align: justify;"><b>A. Certified: </b>Charges to
-                            appropriation/alloment are
-                            necessary, lawful and under my
-                            direct
-                            supervision;and supporting documents valid, proper and legal</p>
-                        <strong style="font-size:18px;">HAZEL E.
-                            HAUTEA</strong> <br>
-                        <p>Chief Administrative Officer</p>
-                        <p>Head, Requesting Office/Authorized Representative</p>
-                    </td>
-                    <td style="text-align: center;" colspan="2" class="name">
-                        <br>
-                        <p style="text-align: justify;"><b>B. Certified: </b>Allotment available and obligated for the
-                            purpose/adjustment necessary
-                            as indicated above</p>
-                        <strong style="font-size:18px;">CONNIE M.
-                            BARNACHEA</strong>
-                        <br>
-                        <p>Budget Officer</p>
-                        <p>Head, Budget Division/Unit/Authorized Representative</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan=" 2"><strong>Date</strong></td>
-                    <td colspan="2"><strong>Date</strong></td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td><strong>C.</strong>
-                    <td style="text-align: center;"><strong>STATUS OF OBLIGATION</strong></td>
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <th colspan="3" class="merge-header">Reference</th>
-                    <th colspan="5" class="merge-header">Amount</th>
-                </tr>
-                <tr>
-                    <td rowspan="2">Date</td>
-                    <td rowspan="2">Particulars</td>
-                    <td rowspan="2">ORS/JEV/Check/ADA/TRA No.</td>
-                    <td rowspan="2">Obligation</td>
-                    <td rowspan="2">Payable</td>
-                    <td rowspan="2">Payment</td>
-                    <td colspan="2" style="text-align: center;">Balance</td>
-                </tr>
-                <tr>
-                    <td>Not Yet Due</td>
-                    <td>Due and Demandable</td>
-                </tr>
-                <tbody>
-                    <tr>
-                        <td>05/02/25</td>
-                        <td>Representation Expenses</td>
-                        <td>ADMIN&POLICY-25-02-008</td>
-                        <td>15,000.00</td>
-                        <td>15,000.00</td>
-                        <td>15,000.00</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-
+                    
+                    <!-- <div class="form-section">
+                        <h3>Mode of Payment</h3>
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="mds" name="payment_mode">
+                                        <label for="mds">MDS Check</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="commercial" name="payment_mode">
+                                        <label for="commercial">Commercial Check</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ada" name="payment_mode">
+                                        <label for="ada">ADA</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="others" name="payment_mode">
+                                        <label for="others">Others (Specify):</label>
+                                        <input type="text" class="form-control" style="width: 200px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Payee Details Section -->
+                    <div class="form-section">
+                        <h3> Payee Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Payee Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">TIN/Employee No.</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <select class="form-control">
+                                <option>Koronadal City</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Details Section -->
+                    <div class="form-section">
+                        <h3></h3>
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label class="form-label">NOTES</label>
+                                <textarea class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Responsibility Center</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">OO/PAP</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Amount</label>
+                                <input type="number" class="form-control" id="amount" step="0.01" onchange="calculateTaxes()">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Breakdown of Expenses Section
+                    <div class="form-section">
+                        <h3>Breakdown of Expenses</h3>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label class="form-label">Gross Amount</label>
+                                <input type="number" class="form-control" id="gross_amount" step="0.01" onchange="calculateTaxes()">
+                            </div>
+                            <div class="form-group half-width">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" class="apply_taxes" id="apply_taxes" checked onchange="toggleTaxFields()">
+                                    <label for="apply_taxes">Apply Tax Calculations</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="tax_fields_container" class="tax-fields">
+                            <div class="form-row">
+                                <div class="form-group half-width">
+                                    <label class="form-label">VAT <input type="number" class="tax-percentage" id="vat_percentage" value="12" min="0" max="100" step="0.01" onchange="calculateTaxes()"> %</label>
+                                    <input type="number" class="form-control calculation-field" id="vat_amount" step="0.01" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Tax Base</label>
+                                    <input type="number" class="form-control calculation-field" id="tax_base" step="0.01" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Less: <input type="number" class="tax-percentage" id="tax1_percentage" value="5" min="0" max="100" step="0.01" onchange="calculateTaxes()"> % Tax</label>
+                                    <input type="number" class="form-control calculation-field" id="tax_1" step="0.01" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Less: <input type="number" class="tax-percentage" id="tax2_percentage" value="2" min="0" max="100" step="0.01" onchange="calculateTaxes()"> % Tax</label>
+                                    <input type="number" class="form-control calculation-field" id="tax_2" step="0.01" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Net Amount</label>
+                                <input type="number" class="form-control calculation-field" id="net_amount" step="0.01" readonly>
+                            </div>
+                        </div>
+                    </div>
+                     -->
+                    <!-- Accounting Entry Section -->
+                    <div class="form-section">
+                        <h3>Accounting Entry</h3>
+                        <div class="table-responsive">
+                            <table class="accounting-entry-table">
+                                <thead>
+                                    <tr>
+                                        <th>Account Title</th>
+                                        <th>UACS Code</th>
+                                        <th>Debit Amount</th>
+                                        <th>Credit Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control">
+                                                <option>Select Account</option>
+                                                <option>Supplies Expense</option>
+                                                <option>Traveling Expenses - Local</option>
+                                                <option>Representation Expenses</option>
+                                                <option>Accounts Payable</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control"></td>
+                                        <td><input type="number" class="form-control" step="0.01"></td>
+                                        <td><input type="number" class="form-control" step="0.01"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control">
+                                                <option>Select Account</option>
+                                                <option>Supplies Expense</option>
+                                                <option>Traveling Expenses - Local</option>
+                                                <option>Representation Expenses</option>
+                                                <option>Accounts Payable</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control"></td>
+                                        <td><input type="number" class="form-control" step="0.01"></td>
+                                        <td><input type="number" class="form-control" step="0.01"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                                <ion-icon name="add-outline"></ion-icon> Add Row
+                                            </button>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Receipt Section -->
+                    <!-- <div class="form-section">
+                        <h3>9. Receipt of Payment</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Check/ADA No.</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date of Payment</label>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Bank Name & Account No.</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Printed Name of Receiver</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">JEV No.</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Form Buttons -->
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-secondary">Clear Form</button>
+                        <button type="submit" class="btn btn-primary" onclick="redirectToPage()">Submit Voucher</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</body>
 
+    <script>
+
+        function redirectToPage() {
+            window.location.href = "ORSForm.html";
+          }
+
+    function toggleTaxFields() {
+        const applyTaxes = document.getElementById('apply_taxes').checked;
+        const taxFieldsContainer = document.getElementById('tax_fields_container');
+        
+        if (applyTaxes) {
+            taxFieldsContainer.classList.remove('hidden');
+            calculateTaxes();
+        } else {
+            taxFieldsContainer.classList.add('hidden');
+            calculateWithoutTaxes();
+        }
+    }
+    function calculateWithoutTaxes() {
+        const grossAmount = parseFloat(document.getElementById('gross_amount').value) || 0;
+
+        document.getElementById('net_amount').value = grossAmount.toFixed(2);
+        
+        if (document.getElementById('amount') && !document.getElementById('amount').value) {
+            document.getElementById('amount').value = grossAmount.toFixed(2);
+        }
+    }
+
+    function calculateTaxes() {
+        const applyTaxes = document.getElementById('apply_taxes').checked;
+        
+        if (!applyTaxes) {
+            calculateWithoutTaxes();
+            return;
+        }
+        
+        const grossAmount = parseFloat(document.getElementById('gross_amount').value) || 0;
+        const vatPercentage = parseFloat(document.getElementById('vat_percentage').value) || 0;
+        const tax1Percentage = parseFloat(document.getElementById('tax1_percentage').value) || 0;
+        const tax2Percentage = parseFloat(document.getElementById('tax2_percentage').value) || 0;
+        
+
+        const vatAmount = grossAmount * (vatPercentage / 100);
+
+        const taxBase = grossAmount - vatAmount;
+        
+
+        const tax1 = taxBase * (tax1Percentage / 100);
+        
+
+        const tax2 = taxBase * (tax2Percentage / 100);
+
+        const netAmount = grossAmount - vatAmount - tax1 - tax2;
+        
+        document.getElementById('vat_amount').value = vatAmount.toFixed(2);
+        document.getElementById('tax_base').value = taxBase.toFixed(2);
+        document.getElementById('tax_1').value = tax1.toFixed(2);
+        document.getElementById('tax_2').value = tax2.toFixed(2);
+        document.getElementById('net_amount').value = netAmount.toFixed(2);
+        if (document.getElementById('amount') && !document.getElementById('amount').value) {
+            document.getElementById('amount').value = grossAmount.toFixed(2);
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sidebar');
+        const dashboardContainer = document.querySelector('.dashboard-container');
+        
+        if (sidebar && dashboardContainer) {
+            sidebar.addEventListener('click', function(e) {
+              
+                if (e.target === sidebar || e.target.classList.contains('logo-container') || 
+                    e.target.closest('.logo-container')) {
+                    dashboardContainer.classList.toggle('collapsed');
+                }
+            });
+        }
+        
+
+        const dropdown = document.querySelector('.dropdown');
+        
+        if (dropdown) {
+            dropdown.addEventListener('click', function(e) {
+        
+                if (!e.target.closest('.dropdown-content')) {
+                    e.stopPropagation(); 
+                    this.classList.toggle('active');
+                }
+            });
+        }
+        
+        
+        calculateTaxes();
+    });
+    </script>
+</body>
 </html>

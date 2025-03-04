@@ -1,647 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-<link rel="stylesheet" href="CSS/dashboard.css">
-<link rel="stylesheet" href="CSS/sidebar.css">
-<style>
-    .form-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .form-title {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #03045e;
-    }
-    
-    .form-section {
-        margin-bottom: 30px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 20px;
-    }
-    
-    .form-section h3 {
-        color: #0077b6;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-    }
-    
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 -10px;
-        margin-bottom: 15px;
-    }
-    
-    .form-group {
-        flex: 1;
-        min-width: 250px;
-        padding: 0 10px;
-        margin-bottom: 15px;
-    }
-    
-    .form-group.full-width {
-        flex: 0 0 100%;
-    }
-    
-    .form-group.half-width {
-        flex: 0 0 50%;
-    }
-    
-    .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #2B2D42;
-    }
-    
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f8f9fa;
-        transition: all 0.3s ease;
-    }
-    
-    .form-control:focus {
-        outline: none;
-        border-color: #0077b6;
-        box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
-    }
-    
-    textarea.form-control {
-        min-height: 100px;
-        resize: vertical;
-    }
-    
-    .checkbox-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .checkbox-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    .btn-container {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 30px;
-    }
-    
-    .btn {
-        padding: 12px 20px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-primary {
-        background-color: #0077b6;
-        color: white;
-    }
-    
-    .btn-primary:hover {
-        background-color: #03045e;
-    }
-    
-    .btn-secondary {
-        background-color: #8d99ae;
-        color: white;
-    }
-    
-    .btn-secondary:hover {
-        background-color: #2B2D42;
-    }
-    
-    .table-responsive {
-        overflow-x: auto;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    table th, table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-    
-    table th {
-        background-color: #f8f9fa;
-        color: #666;
-        font-weight: 500;
-    }
-    
-    .signature-box {
-        border: 1px dashed #ddd;
-        height: 100px;
-        border-radius: 8px;
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #aaa;
-        cursor: pointer;
-    }
-    
-    .signature-box:hover {
-        background-color: #f8f9fa;
-    }
-    
-    /* Responsive Adjustments */
-    @media (max-width: 992px) {
-        .form-group.half-width {
-            flex: 0 0 100%;
+    <title>Disbursement Voucher Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
         }
-    }
-    
-    @media (max-width: 768px) {
-        .dashboard-container {
-            grid-template-columns: 1fr;
-        }
-        
-        .sidebar {
-            display: none;
-        }
-        
-        .form-container {
+
+        .container {
+            width: 80%;
+            margin: auto;
             padding: 20px;
         }
-        
-        .form-row {
-            flex-direction: column;
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
-        .form-group {
-            min-width: 100%;
+
+        .header {
+            text-align: left;
         }
-    }
-    
-    @media print {
-        body {
-            background-color: white;
+
+        .section {
+            margin-top: 15px;
         }
-        
-        .sidebar, .btn-container {
-            display: none;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        
-        .dashboard-container {
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+        }
+
+        #db {
+            text-align: center;
+        }
+
+        #dti {
+            text-align: center;
+        }
+
+        .split {
+            display: flex-start;
+            justify-content: center;
+        }
+
+        .no-border {
+            border: none !important;
+        }
+
+        .centered h3,
+        .centered h5 {
+            margin: 5px 0;
+            text-align: center;
             display: block;
         }
-        
-        .form-container {
-            box-shadow: none;
-            padding: 0;
-        }
-    }
-    
-    /* Custom styles for calculation fields */
-    .calculation-field {
-        background-color: #edf2f7;
-        cursor: not-allowed;
-    }
-    
-    /* Accounting entry table */
-    .accounting-entry-table th:nth-child(1),
-    .accounting-entry-table td:nth-child(1) {
-        width: 40%;
-    }
-    
-    .accounting-entry-table th:nth-child(2),
-    .accounting-entry-table td:nth-child(2) {
-        width: 20%;
-    }
-    
-    .accounting-entry-table th:nth-child(3),
-    .accounting-entry-table th:nth-child(4),
-    .accounting-entry-table td:nth-child(3),
-    .accounting-entry-table td:nth-child(4) {
-        width: 20%;
-    }
-</style>
+    </style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <div class="sidebar">
-            <div class="logo-container">
-                <img src="pictures/dti_logo.png" alt="Company Logo">
-                <div class="logo-text">
-                    <h2>DTI</h2>
-                    <span class="admin-text">Book Keeper</span>
-                </div>
-            </div>
-            <a href="Dashboard.html" class="nav-item">
-                <ion-icon name="home-outline"></ion-icon>
-                <span class="nav-text">Dashboard</span>
-            </a>
-            <div class="nav-item dropdown">
-                <div class="dropdown-header">
-                    <ion-icon name="cash-outline"></ion-icon>
-                    <span class="nav-text">Disbursements</span>
-                    <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
-                </div>
-                <div class="dropdown-content">
-                    <a href="DVFORM.HTML" class="dropdown-item">
-                        <span class="nav-text">Disbursement Voucher</span>
-                    </a>
-                    <a href="ViewOBS.html" class="dropdown-item">
-                        <span class="nav-text">Obligation Request</span>
-                    </a>
-                    <a href="CompletedDisbursements.html" class="dropdown-item">
-                        <span class="nav-text"> Journal Entry Voucher</span>
-                    </a>
-                </div>
-            </div>
-            <a href="Reports.html" class="nav-item">
-                <ion-icon name="document-text-outline"></ion-icon>
-                <span class="nav-text">Reports</span>
-            </a>
-            <div class="nav-item">
-                <ion-icon name="settings-outline"></ion-icon>
-                <span class="nav-text">Settings</span>
-            </div>
-        </div>
 
-        
-        <div class="main-content">
-            <div class="header">
-                <h1>Disbursement Voucher Form</h1>
-                <!-- <button class="btn btn-primary" onclick="window.print()">
-                    <ion-icon name="print-outline"></ion-icon>
-                    Print Form
-                </button> -->
-            </div>
-            <div class="content-wrapper">
-                <div class="form-container">
-                    <h2 class="form-title">DISBURSEMENT VOUCHER</h2>
-                    
-                    <!-- General Information Section -->
-                    <div class="form-section">
-                        <h3>General Information</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Fund Cluster</label>
-                                <select class="form-control">
-                                    <option>Regular Agency Fund (01)</option>
-                                    <option>Special Purpose Fund (02)</option>
-                                    <option>Trust Receipts (03)</option>
-                                </select>
+<body>
+    <div class="container">
+        <div class="container">
+
+            <table>
+                <tr>
+                    <th colspan="3" class="centered">
+                        <h3>DEPARTMENT OF TRADE AND INDUSTRY 12</h3>
+                        <h5>Entity Name</h5>
+                        <h3>DISBURSEMENT VOUCHER</h3>
+                    </th>
+                    <td rowspan="3" class="left-align">
+                        <b>Fund Cluster:</b><br>
+                        <span>Regular Agency Fund (01)</span><br><br>
+                        <b>Date:</b> 14/2/2025<br><br>
+                        <b>DV No.:</b><br>
+                        ADMIN&POLICY-25-02-008
+                    </td>
+                </tr>
+            </table>
+
+
+            <table>
+                <tr>
+                    <td><strong>Mode of Payment:</strong> <input type="checkbox">MDS Check <input
+                            type="checkbox">Commercial Check
+                        <input type="checkbox">ADA <input type="checkbox">Others (Please specify)
+                    </td>
+                </tr>
+            </table>
+
+
+            <table>
+                <tr>
+                    <td><strong>Payee</strong></td>
+                    <td>
+                        <strong>CINCO NIÑAS RESTO</strong>
+                    </td>
+                    <td>
+                        <p>Tin Employee No.: 104-077-115-009</p>
+                    </td>
+                    <td>
+                        <p>ORS/BURS No.: ADMIN&POLICY -25-02-008</p>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td><strong>KORONADAL CITY</strong></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th>Particulars</th>
+                    <th>Responsibility Center</th>
+                    <th>OO/PAP</th>
+                    <th>Amount</th>
+                </tr>
+
+                <tr>
+                    <td><strong>Payment of Representration</strong></td>
+                    <td>22-001-03-00012-03</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>Purpose: Payment of Meals during DTI RO AFMD and FO <br> AO QMS Strat Planning Feb 6,2025</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Total Amount Billed:</strong> <span style="padding-left: 180px;">15,000.00</span></td>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span style="padding-left: 100px;"><strong>Gross
+                                Amount</strong></span><span style="padding-left: 30px ">15,000.00 </span> <br>
+
+                        <span style="padding-left: 100px;"><strong>Less VAT 12%</strong></span><span
+                            style="padding-left: 30px ">1,607.14 </span> <br>
+
+                        <span style="padding-left: 100px;"><strong>Tax Base</strong></span><span
+                            style="padding-left: 30px ">13,392.86 </span> <br>
+
+                        <span style="padding-left: 100px;"><strong>Less 5%</strong></span><span
+                            style="padding-left: 30px ">669.64 </span> <br>
+
+                        <span style="padding-left: 100px;"><strong>Less 2%</strong></span><span
+                            style="padding-left: 30px ">937.50 </span> <br>
+
+                        <span style="padding-left: 100px;"><strong>Net Amount</strong></span><span
+                            style="padding-left: 30px ">14,062.50</span> <br>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><strong style="padding-left: 200px;">Amount Due</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>14,062.50</strong></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td><strong>A. Certified: Expenses/Cash Advance necessary, lawful and incurred under my direct
+                            supervision.</strong>
+                        <p style="text-align: center;"><u>HAZEL E. HAUTEA</u></p>
+                        <p style="text-align: center;">Chief Administrative Officer</p>
+                    </td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td><strong>B. Accounting Entry</strong>
+                    </td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td>Account Title</td>
+                    <td>
+                        <p>UACS Code</p>
+                    </td>
+                    <td>
+                        <p>Debit</p>
+                    </td>
+                    <td>
+                        <p>Credit</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Representation Expenses</td>
+                    <td>5029901000</td>
+                    <td>15,000.00</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>Due to BIR 5%</td>
+                    <td>2020101000</td>
+                    <td></td>
+                    <td>664.64</td>
+                </tr>
+
+                <tr>
+                    <td>Due to BIR 2%</td>
+                    <td>2020101000</td>
+                    <td></td>
+                    <td>267.86</td>
+                </tr>
+
+                <tr>
+                    <td>Cash - Modified Disbursement System, Regular</td>
+                    <td>1010404000</td>
+                    <td></td>
+                    <td><strong>14,062.50</strong></td>
+                </tr>
+
+            </table>
+
+            <table>
+                <tr>
+                    <td>
+                        <div class="split">
+                            <div class="column">
+                                <b>C. Certified:</b><br>
+                                <input type="checkbox"> <span style="font-size: 12px;">Cash available</span> <br>
+                                <input type="checkbox"> <span style="font-size: 12px;">Subject to Authority to Debit
+                                    Account (when applicable) </span><br>
+                                <input type="checkbox"> <span style="font-size: 12px;">Supporting documents complete and
+                                    amount claimed proper</span>
+
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Date</label>
-                                <input type="date" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Disbursement Voucher No.</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <!-- <div class="form-row">
-                            <div class="form-group full-width">
-                                <label class="form-label">Entity Name</label>
-                                <input type="text" class="form-control" value="DEPARTMENT OF TRADE AND INDUSTRY 12">
-                            </div>
-                        </div> -->
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>Mode of Payment</h3>
-                        <div class="form-row">
-                            <div class="form-group full-width">
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="mds" name="payment_mode">
-                                        <label for="mds">MDS Check</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="commercial" name="payment_mode">
-                                        <label for="commercial">Commercial Check</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="ada" name="payment_mode">
-                                        <label for="ada">ADA</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="others" name="payment_mode">
-                                        <label for="others">Others (Specify):</label>
-                                        <input type="text" class="form-control" style="width: 200px;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Payee Details Section -->
-                    <div class="form-section">
-                        <h3> Payee Details</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Payee Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">TIN/Employee No.</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <select class="form-control">
-                                <option>Koronadal City</option>
-                                
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- Mode of Payment Section -->
-                  
-                    
-                    <!-- Payment Details Section -->
-                    <div class="form-section">
-                        <h3></h3>
-                        <div class="form-row">
-                            <div class="form-group full-width">
-                                <label class="form-label">Particulars</label>
-                                <textarea class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Responsibility Center</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">OO/PAP</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Amount</label>
-                                <input type="number" class="form-control" id="amount" step="0.01" onchange="calculateTaxes()">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Breakdown of Expenses Section -->
-                    <div class="form-section">
-                        <h3>Breakdown of Expenses</h3>
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label class="form-label">Gross Amount</label>
-                                <input type="number" class="form-control" id="gross_amount" step="0.01" onchange="calculateTaxes()">
-                            </div>
-                            <div class="form-group half-width">
-                                <label class="form-label">VAT <input type="number" class="tax-percentage" id="vat_percentage" value="12" min="0" max="100" step="0.01" onchange="calculateTaxes()"> %</label>
-                                <input type="number" class="form-control calculation-field" id="vat_amount" step="0.01" readonly>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Tax Base</label>
-                                <input type="number" class="form-control calculation-field" id="tax_base" step="0.01" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Less: <input type="number" class="tax-percentage" id="tax1_percentage" value="5" min="0" max="100" step="0.01" onchange="calculateTaxes()"> % Tax</label>
-                                <input type="number" class="form-control calculation-field" id="tax_1" step="0.01" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Less: <input type="number" class="tax-percentage" id="tax2_percentage" value="2" min="0" max="100" step="0.01" onchange="calculateTaxes()"> % Tax</label>
-                                <input type="number" class="form-control calculation-field" id="tax_2" step="0.01" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Net Amount</label>
-                                <input type="number" class="form-control calculation-field" id="net_amount" step="0.01" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Certification Section -->
-                    <!-- <div class="form-section">
-                        <h3>6. Certification</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Certified By (Printed Name & Position)</label>
-                                <input type="text" class="form-control">
-                                <div class="signature-box">
-                                    <span>Click to upload signature</span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Certification</label>
-                                <div class="checkbox-item" style="margin-top: 15px;">
-                                    <input type="checkbox" id="cash_available">
-                                    <label for="cash_available">Cash Available</label>
-                                </div>
-                                <div class="checkbox-item" style="margin-top: 15px;">
-                                    <input type="checkbox" id="supporting_docs">
-                                    <label for="supporting_docs">Supporting Documents Complete</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     -->
-                    <!-- Accounting Entry Section -->
-                    <div class="form-section">
-                        <h3>7. Accounting Entry</h3>
-                        <div class="table-responsive">
-                            <table class="accounting-entry-table">
-                                <thead>
-                                    <tr>
-                                        <th>Account Title</th>
-                                        <th>UACS Code</th>
-                                        <th>Debit Amount</th>
-                                        <th>Credit Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <select class="form-control">
-                                                <option>Select Account</option>
-                                                <option>Supplies Expense</option>
-                                                <option>Traveling Expenses - Local</option>
-                                                <option>Representation Expenses</option>
-                                                <option>Accounts Payable</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control"></td>
-                                        <td><input type="number" class="form-control" step="0.01"></td>
-                                        <td><input type="number" class="form-control" step="0.01"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <select class="form-control">
-                                                <option>Select Account</option>
-                                                <option>Supplies Expense</option>
-                                                <option>Traveling Expenses - Local</option>
-                                                <option>Representation Expenses</option>
-                                                <option>Accounts Payable</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control"></td>
-                                        <td><input type="number" class="form-control" step="0.01"></td>
-                                        <td><input type="number" class="form-control" step="0.01"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
-                                                <ion-icon name="add-outline"></ion-icon> Add Row
-                                            </button>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <!-- Approval Section -->
-                    <!-- <div class="form-section">
-                        <h3>8. Approval for Payment</h3>
-                        <div class="form-row">
-                            <div class="form-group full-width">
-                                <label class="form-label">Approving Officer Name & Position</label>
-                                <input type="text" class="form-control">
-                                <div class="signature-box">
-                                    <span>Click to upload signature</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    
-                    <!-- Receipt Section -->
-                    <div class="form-section">
-                        <h3>9. Receipt of Payment</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Check/ADA No.</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Date of Payment</label>
-                                <input type="date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Bank Name & Account No.</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Printed Name of Receiver</label>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">JEV No.</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Form Buttons -->
-                    <div class="btn-container">
-                        <button type="button" class="btn btn-secondary">Clear Form</button>
-                        <button type="submit" class="btn btn-primary">Submit Voucher</button>
-                    </div>
-                </div>
-            </div>
+                            <div class="column">
+                    <td>
+                        <b>D. Approved for Payment</b><br>
+                        <p style="text-align: center;">#NAME?</p>
+                    </td>
         </div>
     </div>
+    </td>
+    </tr>
+    </table>
 
-    <script>
-     // Function to calculate taxes and net amount
-function calculateTaxes() {
-    const grossAmount = parseFloat(document.getElementById('gross_amount').value) || 0;
-    const vatPercentage = parseFloat(document.getElementById('vat_percentage').value) || 0;
-    const tax1Percentage = parseFloat(document.getElementById('tax1_percentage').value) || 0;
-    const tax2Percentage = parseFloat(document.getElementById('tax2_percentage').value) || 0;
-    
-    // Calculate VAT based on user input percentage
-    const vatAmount = grossAmount * (vatPercentage / 100);
-    
-    // Calculate Tax Base
-    const taxBase = grossAmount - vatAmount;
-    
-    // Calculate first tax
-    const tax1 = taxBase * (tax1Percentage / 100);
-    
-    // Calculate second tax
-    const tax2 = taxBase * (tax2Percentage / 100);
-    
-    // Calculate Net Amount
-    const netAmount = grossAmount - vatAmount - tax1 - tax2;
-    
-    // Set values to form fields
-    document.getElementById('vat_amount').value = vatAmount.toFixed(2);
-    document.getElementById('tax_base').value = taxBase.toFixed(2);
-    document.getElementById('tax_1').value = tax1.toFixed(2);
-    document.getElementById('tax_2').value = tax2.toFixed(2);
-    document.getElementById('net_amount').value = netAmount.toFixed(2);
-    
-    // Also update the amount field if it's empty
-    if (!document.getElementById('amount')) {
-        return;
-    }
-    
-    if (!document.getElementById('amount').value) {
-        document.getElementById('amount').value = grossAmount.toFixed(2);
-    }
-}
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Sidebar toggle functionality
-    const sidebar = document.querySelector('.sidebar');
-    const dashboardContainer = document.querySelector('.dashboard-container');
-    
-    if (sidebar && dashboardContainer) {
-        sidebar.addEventListener('click', function(e) {
-            // Only toggle collapse if clicking on the sidebar itself, not on navigation items
-            if (e.target === sidebar || e.target.classList.contains('logo-container') || 
-                e.target.closest('.logo-container')) {
-                dashboardContainer.classList.toggle('collapsed');
-            }
-        });
-    }
-    
-    // Dropdown functionality
-    const dropdown = document.querySelector('.dropdown');
-    
-    if (dropdown) {
-        dropdown.addEventListener('click', function(e) {
-            // Only toggle if clicking on dropdown header, not content
-            if (!e.target.closest('.dropdown-content')) {
-                e.stopPropagation(); // Prevent sidebar toggle when clicking dropdown
-                this.classList.toggle('active');
-            }
-        });
-    }
-    
-    // Initialize the calculation when the page loads (if applicable)
-    if (typeof calculateTaxes === 'function') {
-        calculateTaxes();
-    }
-});
-    </script>
+
+    <table>
+        <tr>
+            <td style="font-size: 12px; " colspan="2">Signature</td>
+            <td style="font-size: 12px; " colspan="2">Signature</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;" colspan="2" class="name"><strong style="font-size:18px;">NEIL ANTHONY T.
+                    MORALA</strong> <br>
+                <p>Chief Accountant</p>
+                <p>Head, Accounting Unit/Authorized Representative</p>
+            </td>
+            <td style="text-align: center;" colspan="2" class="name"><strong style="font-size:18px;">FLORA D.
+                    POLITUD-GABUNALES,
+                    CESO V</strong>
+                <br>
+                <p>Regional Director</p>
+                <p>Agency Head/Authorized Representative</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan=" 2"><strong>Date</strong></td>
+            <td colspan="2"><strong>Date</strong></td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th colspan="4">E. Receipt of Payment</th>
+            <td style="font-size: 12px;" rowspan="3">JEV No.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px;" rowspan="2" colspan="2">Check/ ADA No. :</td>
+            <td style="font-size: 12px;">Date :</td>
+            <td style="font-size: 12px;">Bank Name & Account Number:</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style="font-size: 12px;" style="font-size: 12px;">Signature :</td>
+            <td style="font-size: 12px;" colspan="2">Date :</td>
+            <td style="font-size: 12px;">Printed Name:</td>
+            <td style="font-size: 12px;" rowspan="3">Date: </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px;" colspan="4  ">Official Receipt No. & Date/Other Documents</td>
+        </tr>
+    </table>
+
+    </div>
+    </div>
 </body>
+
 </html>
