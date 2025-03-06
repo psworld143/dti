@@ -11,44 +11,37 @@
 </head>
 
 <body>
-    <div class="spinner-overlay" id="spinnerOverlay">
-        <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
     <div class="login-container">
         <div class="logo" style="display: flex; justify-content: center;">
-            <img src="public/dti_logo.png" alt="Company Logo" width="100" height="100">
+            <img src="{{ asset('images/dti_logo.png') }}" alt="Company Logo" width="100" height="100">
+
         </div>
 
-
-        <form>
+        <p id="error-message" style="color: red; display: none;"></p>
+        {{-- @auth
+        <form action="/logout" method="POST">
+            @csrf
+            <button>logout</button>
+        </form>
+        @else --}}
+        <form action="/login" method="POST">
+            @csrf
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="name">Name</label>
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="off">
+                <input type="text" id="name" name="loginname" placeholder="Enter your Name" autocomplete="off" required>
             </div>
+
             <div class="form-group">
                 <label for="password">Password</label>
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" id="password" name="password" placeholder="Enter your password"
-                    autocomplete="off">
+                <input type="password" id="password" name="loginpassword" placeholder="Enter your Password"
+                    autocomplete="off" required>
             </div>
+
             <button type="submit">Login</button>
-            <a href="{{ route('reports') }}">go to reports</a>
-
-        </form>
-    </div>
-
+            {{-- <a href="{{ route('register') }}">Register</a> --}}
+            {{-- @endauth --}}
 </body>
 
 </html>

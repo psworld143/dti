@@ -18,7 +18,7 @@ $subcategories = $conn->query("SELECT * FROM financial_subcategories");
 // Fetch submodules
 $submodules = $conn->query("SELECT * FROM financial_submodules");
 
-// retrieve
+// Retrieve data
 $sql = "
     SELECT 
         fc.category_name, 
@@ -33,7 +33,6 @@ $sql = "
     LEFT JOIN financial_object_code foc ON fsm.submodule_id = foc.submodule_id
 ";
 $result = $conn->query($sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -193,10 +192,7 @@ $result = $conn->query($sql);
         <table>
             <thead>
                 <tr>
-                    <th>Financial Category</th>
-                    <th>Financial Subcategory</th>
-                    <th>Financial Submodule</th>
-                    <th>Financial Object Code</th>
+                    <th colspan="4" style="text-align: center;">Object Code</th>
                     <th>UACS Code</th>
                     <th>Status</th>
                 </tr>
@@ -204,40 +200,55 @@ $result = $conn->query($sql);
             <tbody>
                 <?php
                 $currentCategory = $currentSubcategory = $currentSubmodule = "";
+                $rowNumber = 1;
 
                 while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-
                     // Display category only if it's a new one
                     if ($row['category_name'] !== $currentCategory) {
-                        echo "<td><strong>{$row['category_name']}</strong></td>";
-                        $currentCategory = $row['category_name'];
-                    } else {
+                        echo "<tr>";
+                        echo "<td colspan='3'><strong>{$row['category_name']}</strong></td>";
                         echo "<td></td>";
+                        echo "<td></td>";
+                        echo "<td></td>";
+                        echo "</tr>";
+                        $currentCategory = $row['category_name'];
                     }
 
                     // Display subcategory only if it's a new one
                     if ($row['subcategory_name'] !== $currentSubcategory) {
-                        echo "<td style='padding-left: 20px;'>{$row['subcategory_name']}</td>";
-                        $currentSubcategory = $row['subcategory_name'];
-                    } else {
+                        echo "<tr>";
                         echo "<td></td>";
+                        echo "<td colspan='2'>{$row['subcategory_name']}</td>";
+                        echo "<td></td>";
+                        echo "<td></td>";
+                        echo "<td></td>";
+                        echo "</tr>";
+                        $currentSubcategory = $row['subcategory_name'];
                     }
 
                     // Display submodule only if it's a new one
                     if ($row['submodule_name'] !== $currentSubmodule) {
-                        echo "<td style='padding-left: 40px;'>{$row['submodule_name']}</td>";
-                        $currentSubmodule = $row['submodule_name'];
-                    } else {
+                        echo "<tr>";
                         echo "<td></td>";
+                        echo "<td></td>";
+                        echo "<td colspan='2'>{$row['submodule_name']}</td>";
+                        echo "<td></td>";
+                        echo "<td></td>";
+                        echo "</tr>";
+                        $currentSubmodule = $row['submodule_name'];
                     }
 
                     // Display object code
-                    echo "<td style='padding-left: 60px;'>{$row['object_name']}</td>";
+                    echo "<tr>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td>{$row['object_name']}</td>";
                     echo "<td>{$row['uacs_code']}</td>";
                     echo "<td>{$row['status']}</td>";
-
                     echo "</tr>";
+
+                    $rowNumber++;
                 }
                 ?>
             </tbody>
