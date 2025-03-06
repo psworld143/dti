@@ -7,53 +7,35 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-    <link rel="stylesheet" href="CSS/Dashboard.css">
-    <link rel="stylesheet" href="CSS/sidebar.css">
-    <link rel="stylesheet" href="CSS/DV.css">
+   <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/DVBudgetofficer.css">
 </head>
 <body>
     <div class="dashboard-container">
         <div class="sidebar">
             <div class="logo-container">
-                <img src="pictures/dti_logo.png" alt="Company Logo">
+                <img src="pictures/dti_logo.png" alt="DTI Logo">
                 <div class="logo-text">
                     <h2>DTI</h2>
-                    <span class="admin-text">Book Keeper</span>
+                    <span class="admin-text">Admin</span>
                 </div>
             </div>
-           
+            <a href="DVBudgetofficer.html" class="nav-item">
+                <ion-icon name="home-outline"></ion-icon>
+                <span class="nav-text">Disbursement Voucher</span>
             </a>
-            <div class="nav-item dropdown">
-                <div class="dropdown-header">
-                    <ion-icon name="cash-outline"></ion-icon>
-                    <span class="nav-text">Forms</span>
-                    <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
-                </div>
-                <div class="dropdown-content">
-                    <a href="ORS.html" class="dropdown-item">
-                        <span class="nav-text">Obligation Request</span>
-                    </a>
-                    <a href="DV.html" class="dropdown-item">
-                        <span class="nav-text">DV & JE</span>
-                    </a>
-                  
-                </div>
-          
-                
-            </div>
-            <div class="nav-item">
-                <a href="reports.html" class="nav-link">
-                    <ion-icon name="document-text-outline"></ion-icon>
-                    <span class="nav-text">Reports</span>
-                </a>
-            </div>
+            <a href="Reports.html" class="nav-item">
+                <ion-icon name="home-outline"></ion-icon>
+                <span class="nav-text">Report</span>
+            </a>
            
+            
         </div>
         
         <div class="main-content">
             <div class="header">
                 <h1>Disbursement Voucher Form</h1>
-                <button class="btn-primary" onclick="openDVModal()">Add New</button>
+                <button class="view-button" onclick="openDVModal()">Add New</button>
             </div>
             <div class="content-wrapper">
                 <div class="section">
@@ -66,10 +48,9 @@
                         <div class="filter-item">
                             <label for="status-filter">Filter by Status</label>
                             <select id="status-filter" class="form-control">
-                                <option value="">All Statuses</option>
+                              
                                 <option value="pending">Pending</option>
-                                <option value="with-balance">With Balance</option>
-                                <option value="completed">Completed</option>
+                              
                                 <option value="approved">Approved</option>
                             </select>
                         </div>
@@ -83,7 +64,8 @@
                             Clear Filters
                         </button>
                     </div>
-        
+                  
+
                     <table class="assessments-table">
                         <thead>
                             <tr>
@@ -96,26 +78,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                          
                             <tr>
                                 <td>RM-25-02-032</td>
                                 <td>ESTER WATER MARKET FILTRATION & PURI....</td>
                                 <td>Gravity retaining walls</td>
-                             
                                 <td>
-                                    <span class="severity-badge severity-high">
-                                       Pending
-                                    </span>
+                                    <select class="status-dropdown" onchange="updateStatusStyle(this)">
+                                        <option value="pending" selected>Pending</option>
+                                        <option value="approved">Approved</option>
+                                        <option value="declined">Declined</option>
+                                    </select>
                                 </td>
                                 <td>2025-01-15</td>
                                 <td>
-                                    <button class="btn-primary" onclick="openDVModal('RM-25-02-032')">
+                                    <button class="view-button" onclick="openDVModal('RM-25-02-032')">
                                         View Details
                                     </button>
                                 </td>
                             </tr>
-                          
-                          
                         </tbody>
                     </table>
                 </div>
@@ -273,6 +253,7 @@
                             </div>
                         </div>
                     </div>           
+                    <!-- Accounting Entry Section -->
                     <div class="form-section">
                         <h3>Accounting Entry</h3>
                         <div class="table-responsive">
@@ -344,7 +325,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Regional Director</label>
+                                <label class="form-label">Regional Directorbr</label>
                                 <select class="form-control">
                                     <option>FLORA D. POLITUD-GABUNALES, CESO V</option>
                                   
@@ -354,7 +335,7 @@
                         </div>
                     </div>
                     
-
+                    <!-- Receipt Section -->
                     <div class="form-section">
                         <h3>Receipt of Payment</h3>
                         <div class="form-row">
@@ -383,7 +364,7 @@
                         </div>
                     </div>
                     
-                 
+                    <!-- Form Buttons -->
                     <div class="btn-container">
                         <button type="button" class="btn btn-secondary" id="clearFormBtn" >Clear Form</button>
                         <button type="submit" class="btn btn-primary" onclick="redirectToPage()">Print</button>
@@ -394,14 +375,12 @@
     </div>
 
     <script>
- 
-
-
+        // Submit redirectory//
         function redirectToPage() {
             window.location.href = "DVForm.html";
           }
     
-
+          //Filter Funcitons//
         document.addEventListener('DOMContentLoaded', function() {
             const dateFilter = document.getElementById('date-filter');
             const statusFilter = document.getElementById('status-filter');
@@ -468,6 +447,7 @@
             }
         });
                 
+        // Tax Calculation Functions toggle//
                 function toggleTaxFields() {
                     const applyTaxesCheckbox = document.getElementById('apply_taxes');
                     const taxFieldsContainer = document.getElementById('tax_fields_container');
@@ -624,36 +604,6 @@
         });
 
 
-        document.addEventListener('DOMContentLoaded', function() {
-        const sidebar = document.querySelector('.sidebar');
-        const dashboardContainer = document.querySelector('.dashboard-container');
-        
-        if (sidebar && dashboardContainer) {
-            sidebar.addEventListener('click', function(e) {
-              
-                if (e.target === sidebar || e.target.classList.contains('logo-container') || 
-                    e.target.closest('.logo-container')) {
-                    dashboardContainer.classList.toggle('collapsed');
-                }
-            });
-        }
-        
-
-        const dropdown = document.querySelector('.dropdown');
-        
-        if (dropdown) {
-            dropdown.addEventListener('click', function(e) {
-        
-                if (!e.target.closest('.dropdown-content')) {
-                    e.stopPropagation(); 
-                    this.classList.toggle('active');
-                }
-            });
-        }
-        
-        
-
-    });
         document.addEventListener('DOMContentLoaded', function() {
             calculateTaxes();
             calculateTotals();
