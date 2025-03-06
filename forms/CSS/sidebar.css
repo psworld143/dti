@@ -1,4 +1,26 @@
-/* Dropdown styles */
+.sidebar {
+    background-color: #a3cef136;
+    color: #2B2D42;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    width: 250px;
+    cursor: pointer;
+}
+
+.dashboard-container.collapsed .sidebar {
+    width: 80px;
+    padding: 20px 10px;
+}
+
+
+.dashboard-container.collapsed .nav-text {
+    display: none;
+}
 .dropdown {
     flex-direction: column;
     cursor: pointer;
@@ -32,7 +54,7 @@
 
 .dropdown.active .dropdown-icon {
     transform: rotate(180deg);
-    color: #005f8f;
+    color: white;
 }
 
 .dropdown-content {
@@ -92,7 +114,6 @@
     background-color: #005f8f;
 }
 
-/* For collapsed sidebar */
 .dashboard-container.collapsed .dropdown-content {
     position: absolute;
     left: 80px;
@@ -129,3 +150,5 @@
 .dashboard-container.collapsed .dropdown:hover .dropdown-content {
     max-height: 200px;
 }
+
+
